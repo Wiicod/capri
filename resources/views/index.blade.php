@@ -23,6 +23,7 @@
 <script type="text/javascript" src="{{ URL::asset('js/bower/angular-ui-router.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/bower/angular-messages.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/bower/loading-bar.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/bower/ngKookies.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/bower/ng-file-upload-shim.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/bower/ng-file-upload.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/bower/jquery.min.js') }}"></script>

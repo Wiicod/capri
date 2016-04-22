@@ -10,11 +10,13 @@ use App\Http\Controllers\Controller;
 class AngularController extends Controller
 {
     //
-    public function serveApp(){
+    public function serveApp()
+    {
         return view('index');
     }
 
-    public function unsupported(){
+    public function unsupported()
+    {
         return view('unsupported');
     }
 }
