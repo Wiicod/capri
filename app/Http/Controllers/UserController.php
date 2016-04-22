@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use Response;
 use Auth;
 use File;
+use \Log;
 
 class UserController extends Controller
 {
@@ -150,28 +151,30 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+
         $u = User::find($id);
+        //dd(Input::all());
         if($u==null){
             return Response::json(array(
                 'error'=>  'utilisateur non trouve' ,
             ), 404);
         }
-        if(Input::get('name')==null){
+        if(Input::get('name')!=null){
             $u->name= Input::get('name');
         }
-        if(Input::get('email')==null){
+        if(Input::get('email')!=null){
             $u->email= Input::get('email');
         }
-        if(Input::get('login')==null){
+        if(Input::get('login')!=null){
             $u->login= Input::get('login');
         }
-        if(Input::get('password')==null){
+        if(Input::get('password')!=null){
             $u->password= Hash::make(Input::get('password'));
         }
-        if(Input::get('statut')==null){
+        if(Input::get('statut')!=null){
+
             $u->statut= Input::get('statut');
         }
-
 
         if(is_array($res=$this->save($u))){
             return Response::json(array(
@@ -232,6 +235,8 @@ class UserController extends Controller
                     Session::put('firstlogin',true);
                     Session::put('utilisateur',$user);
                     Session::save();
+                    Auth::login($user);
+                    Log::info(\Carbon\Carbon::now().' l utilisateur '.$user->name.' s\' est loge ');
                     return  Response::json(array(
                         'user' => $user,
                     ), 200);
@@ -239,22 +244,26 @@ class UserController extends Controller
 
 
                 }else{
-                    Session::put('firstlogin',false);
                     return  Response::json(array(
-                        'error' => 'invalid password',
-                    ), 405);
+                        'error' => 'invalid  password',
+                    ), 403);
                 }
             }else{
-                Session::put('firstlogin',false);
                 return  Response::json(array(
-                    'error' => 'invalid username',
+                    'error' => 'invalid username ',
                 ), 406);
             }
+        }else{
+            return Response::json(array(
+                'error'=>  'veuillez renseigner le login et le mot de pass' ,
+            ), 404);
         }
     }
 
     public function logout(){
 
+        $u=Session::get('utilisateur');
+        Log::info(\Carbon\Carbon::now().' l utilisateur '.$u->name.' s\' est deconnecte ');
         Auth::logout();
         return Response::json(array('msg'=>'logout ok'),200);
 
@@ -274,4 +283,14 @@ class UserController extends Controller
             return $e->errorInfo;
         }
     }
+
+    private function objectToObject($instance, $className) {
+        return unserialize(sprintf(
+            'O:%d:"%s"%s',
+            strlen($className),
+            $className,
+            strstr(strstr(serialize($instance), '"'), ':')
+        ));
+    }
+
 }

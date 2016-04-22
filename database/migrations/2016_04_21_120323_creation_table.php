@@ -23,7 +23,7 @@ class CreationTable extends Migration
         });
         Schema::table('users', function (Blueprint $table) {
             $table->string("login")->unique();
-            $table->tinyInteger("statut")->unique();
+            $table->tinyInteger("statut");
         });
 
         Schema::create('produits', function (Blueprint $table) {

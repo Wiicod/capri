@@ -15,14 +15,13 @@
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 
-Route::get('/stock-images/categorie/{image}', function($image){
+Route::get('/stock-images/{type}/{image}', function($type,$image){
 
     //do so other checks here if you wish
-    dd(File::exists(storage_path("stock-images\\categorie\\".$image)));
 
-    if(!File::exists( $image=storage_path("stock-images/categorie/{$image}") )) abort(404);
+    if(!Storage::has("stock-images/".$type."/".$image)) abort(404);
 
-    return Image::make($image)->response(); //will ensure a jpg is always returned
+    return Storage::get("stock-images/".$type."/".$image); //will ensure a jpg is always returned
 });
 
 Route::group(['prefix'=>'/api','middleware' => ['web']], function () {

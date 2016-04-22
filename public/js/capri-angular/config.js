@@ -18,8 +18,6 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRo
             views:{
                 '':{
                     templateUrl: template_url+'main.html'
-
-
                 },
                 'nav@accueil': {
                     templateUrl: template_url+'main/entete.html',

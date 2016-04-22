@@ -14,7 +14,7 @@
 </head>
 <body  layout="column" ui-view>
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-<div ui-view></div>
+
 <script type="text/javascript" src="{{ URL::asset('js/bower/angular.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/bower/angular-animate.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/bower/angular-aria.min.js') }}"></script>

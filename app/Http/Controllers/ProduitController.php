@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Categorie;
+use App\Imagep;
 use App\Produit;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
+use Response;
 
 class ProduitController extends Controller
 {
@@ -48,6 +52,11 @@ class ProduitController extends Controller
     public function store(Request $request)
     {
         //
+
+        if(Input::get('id')){
+            return $this->update($request,Input::get('id'));
+        }
+
         if(Input::get('nom')==null){
             return Response::json(array(
                 'error'=>  'Veuillez renseigner le nom du produit' ,
@@ -61,6 +70,11 @@ class ProduitController extends Controller
         if(Input::get('localisation')==null){
                     return Response::json(array(
                         'error'=>  'Veuillez renseigner la localisation du produit' ,
+                    ), 405);
+        }
+        if(Input::get('description')==null){
+                    return Response::json(array(
+                        'error'=>  'Veuillez renseigner la description du produit' ,
                     ), 405);
         }
         if(Input::get('etat')==null){
@@ -79,9 +93,7 @@ class ProduitController extends Controller
                     ), 405);
         }
 
-        if(Input::get('id')){
-            return $this->update($request,Input::get('id'));
-        }
+
 
 
         //dd(Input::file('image'));
@@ -106,6 +118,9 @@ class ProduitController extends Controller
                 'error'=>  $res[2] ,
             ), 402);
         }
+        if($list_images=Input::file('image')){
+           $this->charger_images($p,$list_images);
+        }
 
 
         return Response::json(array(
@@ -123,7 +138,7 @@ class ProduitController extends Controller
     public function show($id)
     {
         //
-        $p= Produit::with('imageps')->find($id);
+        $p= Produit::with(['imageps','categorie'])->find($id);
         if($p){
             return Response::json(array(
                 'produit'=>  $p ,
@@ -163,25 +178,25 @@ class ProduitController extends Controller
                 'error'=>  'Le produit renseigne n\'existe pas ' ,
             ), 404);
         }
-        if(Input::get('nom')){
+        if(Input::get('nom')!=null){
             $p->nom= Input::get('nom');
         }
-        if(Input::get('prix')){
+        if(Input::get('prix')!=null){
             $p->prix= Input::get('prix');
         }
-        if(Input::get('localisation')){
+        if(Input::get('localisation')!=null){
             $p->localisation= Input::get('localisation');
         }
-        if(Input::get('etat')){
+        if(Input::get('etat')!=null){
             $p->etat= Input::get('etat');
         }
-        if(Input::get('acontacter')){
+        if(Input::get('acontacter')!=null){
             $p->acontacter= Input::get('acontacter');
         }
-        if(Input::get('description')){
+        if(Input::get('description')!=null){
             $p->description= Input::get('description');
         }
-        if(Input::get('categorie')==null){
+        if(Input::get('categorie')!=null){
             $c = Categorie::find(Input::get('categorie'));
             if($c==null){
                 return Response::json(array(
@@ -237,5 +252,23 @@ class ProduitController extends Controller
             // var_dump($e->errorInfo );
             return $e->errorInfo;
         }
+    }
+
+    protected function  charger_images($p,$listImage){
+        foreach($listImage as $img){
+            $ip = new Imagep();
+            $ip->produit()->associate($p);
+            $ip->save();
+            $ip->image=$this->upload($img,$ip->id);
+
+        }
+    }
+
+    protected function upload($image,$id){
+        $extension = $image->getClientOriginalExtension();
+        $fpath="stock-images/produit/".(2*$id).'_'.$image->getClientOriginalName();
+//        $fpath="stock-images/produit/".$image->getFilename().'_'.$id.'.'.$extension;
+        Storage::disk('local')->put($fpath,  File::get($image));
+        return $fpath;
     }
 }

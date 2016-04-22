@@ -7,6 +7,7 @@ use App\Produit;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 
@@ -61,11 +62,6 @@ class ImagepController extends Controller
                 'error'=>  'Veuillez renseigner le produit de cet\'image ' ,
             ), 405);
         }
-        if(Input::get('image')==null){
-                    return Response::json(array(
-                        'error'=>  'Veuillez renseigner le fichier (image) de cet\'image ' ,
-                    ), 405);
-        }
         $p = Produit::find(Input::get('produit'));
         if($p==null){
             return Response::json(array(
@@ -79,15 +75,20 @@ class ImagepController extends Controller
         $ip->image="default.png";
         $ip->produit()->associate($p);
         $image = Input::file('image');
+        if($image==null){
+            return Response::json(array(
+                'error'=>  'Veuillez renseigner le fichier (image) de cet\'image ' ,
+            ), 405);
+        }
         if(is_array($res=$this->save($ip))){
             return Response::json(array(
                 'error'=>  $res[2] ,
             ), 402);
         }
-        if($image){
-            $ip->image =$this->upload($image,$ip->id);
-            $this->save($ip);
-        }
+
+        $ip->image =$this->upload($image,$ip->id);
+        $this->save($ip);
+
 
         return Response::json(array(
             'imagep'=>  $ip,
@@ -154,7 +155,9 @@ class ImagepController extends Controller
             $ip->produit()->associate($p);
 
         }
-        if( $image=Input::get('image')){
+        if( $image=Input::file('image')){
+            if(Storage::has($ip->image))
+                Storage::delete($ip->image);
             $ip->image =$this->upload($image,$ip->id);
             $this->save($ip);
         }
@@ -179,8 +182,7 @@ class ImagepController extends Controller
                 'error'=>  'l\'image du produit non trouve' ,
             ), 404);
         }
-
-        if($ip->image!="")
+        if(Storage::has($ip->image))
             Storage::delete($ip->image);
 
         $ip->delete();
@@ -202,8 +204,9 @@ class ImagepController extends Controller
 
     protected function upload($image,$id){
         $extension = $image->getClientOriginalExtension();
-        $fpath="stock-images/produit/".$image->getFilename().'_'.$id.'.'.$extension;
-        Storage::disk('local')->put("stock-images/".$fpath,  File::get($image));
+        $fpath="stock-images/produit/".(2*$id).'_'.$image->getClientOriginalName();
+//        $fpath="stock-images/produit/".$image->getFilename().'_'.$id.'.'.$extension;
+        Storage::disk('local')->put($fpath,  File::get($image));
         return $fpath;
     }
 }

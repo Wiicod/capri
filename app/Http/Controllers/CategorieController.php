@@ -51,11 +51,13 @@ class CategorieController extends Controller
     public function store(Request $request)
     {
         //
+        if(Input::get('id')){
+            return $this->update($request,Input::get('id'));
+        }
+
         if(Input::get('nom')&&Input::get('description')){
 
-            if(Input::get('id')){
-                return $this->update($request,Input::get('id'));
-            }
+
 
 
             //dd(Input::file('image'));
@@ -139,6 +141,8 @@ class CategorieController extends Controller
             $c->description= Input::get('description');
             $image = Input::file('image');
             if($image){
+                if(Storage::has($c->image))
+                    Storage::delete($c->image);
                 $c->image =$this->upload($image,$c->id);
                 if(is_array($res=$this->save($c))){
                     return Response::json(array(
@@ -175,7 +179,7 @@ class CategorieController extends Controller
         }
 
 
-        if($c->image!="")
+        if(Storage::has($c->image))
         Storage::delete($c->image);
 
         $c->delete();
@@ -197,8 +201,9 @@ class CategorieController extends Controller
 
     protected function upload($image,$id){
         $extension = $image->getClientOriginalExtension();
-        $fpath="stock-images/categorie/".$image->getFilename().'_'.$id.'.'.$extension;
-        Storage::disk('local')->put("stock-images/".$fpath,  File::get($image));
+        $fpath="stock-images/categorie/".(2*$id).'_'.$image->getClientOriginalName();
+//        $fpath="stock-images/categorie/".$image->getFilename().'_'.$id.'.'.$extension;
+        Storage::disk('local')->put($fpath,  File::get($image));
         return $fpath;
     }
 }

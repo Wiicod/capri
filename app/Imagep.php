@@ -12,4 +12,6 @@ class Imagep extends Model
         return $this->belongsTo('App\Produit');
     }
 
+    public $timestamps = false;
+
 }
