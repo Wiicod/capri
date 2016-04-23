@@ -27,7 +27,7 @@
                         $log.debug('authorize')
                     },function(data){
                         //$state.go('login');
-                        $location.url('/')
+                        //$location.url('/')
                     })
                 })
 
