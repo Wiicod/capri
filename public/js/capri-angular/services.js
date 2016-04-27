@@ -278,13 +278,13 @@ app
 
                 return deferred.promise;
             },
-            get: function(id){
+            get: function(obj){
                 var deferred =$q.defer();
                 factory.getAll().then(function(produits){
-                    var produit=$filter('filter')(produits,{id :parseInt(id)},true)[0];
+                    var produit=$filter('filter')(produits,obj,true)[0];
                     deferred.resolve(produit);
                 },function(msg){
-                    deferred.reject("Imposible de recuperer le produit");
+                    deferred.reject("Impossible de recuperer le produit");
                 });
                 return deferred.promise;
             },
@@ -331,7 +331,7 @@ app
                 $http.delete('api/produit/'+produit.id)
                     .success(function(data,status){
                         if(status==200){
-                            factory.categories.splice(factory.produits.indexOf(produit),1);
+                            factory.produits.splice(factory.produits.indexOf(produit),1);
                             deferred.resolve(data);
                         }else{
                             deferred.reject(data);

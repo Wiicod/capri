@@ -11,6 +11,7 @@ html, body{
 	--*/
     font-size:100%;
   	background:#f7f6ee;
+	background: #fff;
 }
 body a{
 	transition:0.5s all;
@@ -64,6 +65,7 @@ body a{
 .bottom-header-left p{
 	font-family: 'Rochester', cursive;
 	color: #aeaba5;
+	color: #7fb082;
 	font-size: 1.7em;
 }
 .bottom-header-right ul{
@@ -96,7 +98,9 @@ body a{
 }
 .search-box input[type="text"]{
 	border:1px solid #b0aaa0;
+	border-color: rgb(126, 169, 14);
 	background:#f7f6ee;
+	background: #dfece1;
 	color:#b0aaa0;	
 	padding:0.4em 0.6em;
 	font-size:0.875em;
@@ -145,6 +149,7 @@ span.menu{
 	padding:0;
 	border-top:1px solid #b0aaa0;
 	border-bottom:1px solid #b0aaa0;
+	border-color: rgb(126, 169, 14);
 }
 .top-nav ul li{
 	display:inline-block;
@@ -154,18 +159,21 @@ span.menu{
 	padding: 0.8em 2.71em;
 	font-size: 1em;
 	color: #655f5b;
+	color: #141312;
 	text-decoration: none;
 	display: block;
 	position: relative;
 }
 .top-nav ul li.active a,.top-nav ul li a:hover{
 	background:#ecebdf;
+	background: #dfece1;
 }
 .top-nav ul li.active a span,.top-nav ul li a:hover span{
 	width: 100%;
 	height: 4px;
 	display: block;
 	background: #b0aaa0;
+	background: #2fba39;
 	position: absolute;
 	left: 0;
 	bottom: 0;
@@ -361,9 +369,12 @@ span.menu{
 	position:absolute;
 	top:0;
 	background: rgba(236, 235, 223, 0.48);
+	background: rgba(224, 236, 223, 0.5);
 	bottom:0;
 	width:100%;
 	border:1px solid #777;
+	border-color: rgb(126, 169, 14);
+	margin-bottom: 20px;
 }
 .top-grid:hover div.top-grid-pic-info{
 	display:block;
@@ -373,6 +384,7 @@ span.menu{
 }
 .top-grid-pic-info a{
 	background:#8b4613;
+	background: rgb(126, 169, 14);
 	display:inline-block;
 	padding:0.7em 1.2em;
 	text-transform:uppercase;
@@ -415,12 +427,14 @@ span.menu{
 	font-size:1.5em;
 	font-family: 'Lora', serif;
 	color:#8b4613;
+	color: rgb(126, 169, 14);
 }
 .product-pic-info-cart{
 	float:right;
 }
 a.p-btn{
 	background:#8b4613;
+	background: rgb(126, 169, 14);
 	font-family: 'Lora', serif;
 	color:#FFF;
 	padding:0.7em 1.2em;
@@ -433,12 +447,14 @@ a.p-btn:hover{
 }
 .product-grid:hover div.product-pic-info{
 	background:#ecebdf;
+	background: rgba(224, 236, 223, 0.5);
 }
 .product-grid{
 	border:1px solid #f7f6ee;
 }
 .product-grid:hover{
 	border:1px solid #b0aaa0;
+	border-color: rgb(126, 169, 14);
 }
 .d-products{
 	margin-top:2em;
@@ -515,7 +531,7 @@ a.p-btn:hover{
 }
 /*-- footer --*/
 .footer{
-	background: url(../images/footer-bg.png) repeat-x 0px 0px #ecebdf;
+	/*background: url(../images/footer-bg.png) repeat-x 0px 0px #ecebdf;*/
 	padding: 4em 0 2em;
 }
 .footer-grid ul{
@@ -624,11 +640,13 @@ a.p-btn:hover{
 .footer-bottom-left p{
 	margin:0;
 	color:#b0aaa0;
+	color: #000;
 	font-size:1em;
 	font-family: 'Lora', serif;
 }
 .footer-bottom-left p a{
 	color:#b0aaa0;
+	color: rgb(126, 169, 14);
 	text-decoration:none;
 }
 .footer-bottom-left p a:hover{
@@ -667,6 +685,7 @@ a.p-btn:hover{
 }
 .footer-bottom {
 	border-top: 1px solid #b0aaa0;
+	border-color: rgb(126, 169, 14);
 	padding: 1.5em 0 0 0;
 }
 /*-- collections --*/
@@ -846,12 +865,19 @@ a.b-home:hover{
 	width:48%;
 	margin-right:4%;
 	float:left;
+	margin-top: 13px;
 }
 .text-fild span,.msg-fild span,.message-fild span{
 	display:block;
 	padding:0 0 0.5em 0;
 }
-.text-fild input[type="text"],.msg-fild input[type="text"],.message-fild textarea,.text-fild select, .msg-fild input[type="file"]{
+.text-fild input[type="text"],
+.text-fild input[type="number"],
+.msg-fild input[type="text"],
+.message-fild textarea,
+.text-fild textarea,
+.text-fild select,
+.msg-fild input[type="file"]{
 	padding:0.8em;
 	width:100%;
 	outline:none;
@@ -863,10 +889,9 @@ a.b-home:hover{
 .msg-fild{
 	padding:1em 0;
 }
-.text-fild:nth-child(2){
-	margin:0;
-}
-.message-fild textarea{
+
+.message-fild textarea,
+.text-fild textarea,{
 	min-height:250px;
 	resize:none;
 }
@@ -914,6 +939,7 @@ a.b-home:hover{
 }
 .product-head li a{
 	color: #4f4844;
+	color: #5d8f5f;
 	font-weight: 700;
 	font-size: 1.2em;
 	padding: 0.8em 0;
@@ -1025,7 +1051,7 @@ a.b-home:hover{
 	color:#7e4622;
 }
 .product-detail-info{
-	color: #adadad;
+	color: #7c7c7c;
 	display: block;
 	font-size: 1em;
 	padding: 1em 0;

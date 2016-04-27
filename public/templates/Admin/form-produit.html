@@ -1,192 +1,15 @@
-<!-- Product-Details-page -->
-<style type="text/css">
-    .details-left-info {
-        width: 100%;
-    }
-    .details-left-slider {
-        width: 25%;
-    }
-    .details-right-head{
-        float: left;
-        width: 75%;
-    }
-    .product-details h1{
-        padding: 0.5em 0 !important;
-    }
-    .text-fild{
-        width: 100%;
-    }
-</style>
-<!--- top-nav -->
-<div class="top-nav">
-    <div class="container">
-        <span class="menu" style="font-size: 23px;text-align: center;">Menu</span>
-        <ul>
-            <li><a ui-sref="accueil">Accueil</a></li>
-            <li ng-class="{'active':choix=='liste-categorie'}" ng-click="choix='liste-categorie',message_if=false"><a href="">Categories</a></li>
-            <li ng-class="{'active':choix=='liste-produit'}" ng-click="choix='liste-produit',message_if=false"><a href="">Produits</a></li>
-            <li ng-class="{'active':choix=='ajouter-categorie'}" ng-click="choix='ajouter-categorie',message_if=false"><a href="">Ajouter catégorie</a></li>
-            <li ng-class="{'active':choix=='ajouter-produit'}" ng-click="choix='ajouter-produit',message_if=false"><a href="">Ajouter produit</a></li>
-            <div class="clearfix"> </div>
-        </ul>
-    </div>
-</div>
-<!--- top-nav -->
 
 <div class="details-page">
     <div class="content details-page">
         <!---start-product-details--->
         <div class="product-details" style="min-height: inherit">
             <div class="container">
-                <ul class="product-head hide">
-                    <li><a ui-sref="home">Home</a> <span>::</span></li>
-                    <li class="active-page">Product Page</li>
-                    <div class="clearfix"> </div>
-                </ul>
-                <!----details-product-slider--->
-                <!-- Include the Etalage files -->
-
-                <!-- Include the Etalage files -->
-                <script>
-                    jQuery(document).ready(function($){
-
-                        $('#etalage').etalage({
-                            thumb_image_width: 300,
-                            thumb_image_height: 400,
-                            source_image_width: 900,
-                            source_image_height: 1000,
-                            show_hint: true,
-                            click_callback: function(image_anchor, instance_id){
-                                alert('Callback example:\nYou clicked on an image with the anchor: "'+image_anchor+'"\n(in Etalage instance: "'+instance_id+'")');
-                            }
-                        });
-                        // This is for the dropdown list example:
-                        $('.dropdownlist').change(function(){
-                            etalage_show( $(this).find('option:selected').attr('class') );
-                        });
-
-                    });
-                </script>
-                <!----//details-product-slider--->
                 <div class="details-left" style="width: 100%;">
                     <div class="details-left-info">
                         <div ng-if="message_if" style="margin: 10px auto;padding: 5px 0; color: #7fb082">
                             {{message}}
                         </div>
-                        <div class="details-right-head" style="width: 100%;" ng-if="choix=='liste-categorie'">
-
-                            <div style="float: left; width: 75%; margin: 10px auto;">
-                                <input type="text" ng-model="searchKeyCategorie" placeholder="Entrer un mot-clé" class="input"/>
-                            </div>
-                            <div style="float: right; width: 20%; margin: 10px auto;">
-                                <input type="number" ng-model="par_page" placeholder="Nombre" class="input"/>
-                            </div>
-
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Description</th>
-                                    <th>Image</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr dir-paginate="c in categories |filter:searchKeyCategorie | orderBy : '-nom' : true| itemsPerPage: par_page ">
-                                    <td>{{c.nom}}n</td>
-                                    <td>{{c.description}}</td>
-                                    <td><img src="{{c.image}}" alt="{{c.nom}}" title="{{c.nom}}"/></td>
-                                    <td>
-                                        <i class="fa fa-edit" ng-click="editerCategorie(c)"></i>
-                                        <i class="fa fa-trash" ng-click="supprimerCategorie(c)"></i>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <div class="text-center" >
-                                <dir-pagination-controls></dir-pagination-controls>
-                            </div>
-
-                        </div>
-                        <div class="details-right-head" style="width: 100%;" ng-if="choix=='liste-produit'">
-                            <div style="float: left; width: 75%; margin: 10px auto;">
-                                <input type="text" placeholder="Entrer un mot-clé" ng-model="searchKeyProduct" class="input"/>
-                            </div>
-                            <div style="float: right; width: 20%; margin: 10px auto;">
-                                <input type="number" ng-model="par_page" placeholder="Nombre" class="input"/>
-                            </div>
-
-                            <table class="table table-striped table-responsive">
-                                <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Description</th>
-                                    <th>Image</th>
-                                    <th>Prix</th>
-                                    <th>Catégorie</th>
-                                    <th>Localisation</th>
-                                    <th>A contacter</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr dir-paginate="p in produits |filter:searchKeyProduct | orderBy : '-nom' : true| itemsPerPage: par_page ">
-                                    <td>{{p.nom}}</td>
-                                    <td>{{p.description}}</td>
-                                    <td><img src="{{p.imageps[0].image}}" alt="{{p.nom}}" title="{{p.nom}}"/></td>
-                                    <td>{{p.prix}}</td>
-                                    <td>{{p.categorie.nom}}</td>
-                                    <td>{{p.localisation}}</td>
-                                    <td>{{p.acontacter}}</td>
-                                    <td>
-                                        <i class="fa fa-edit" ng-click="editerProduit(p)"></i>
-                                        <i class="fa fa-trash" ng-click="supprimerProduit(p)"></i>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <div class="text-center" >
-                                <dir-pagination-controls></dir-pagination-controls>
-                            </div>
-
-                        </div>
-                        <div class="details-right-head" ng-if="choix=='ajouter-categorie'">
-                            <form ng-submit="enregistrerCategorie(categorie)">
-                                <div class="text">
-                                    <div class="text-fild">
-                                        <span>Nom:</span>
-                                        <input type="text" class="text" required ng-model="categorie.nom" placeholder="Nom de la catégorie">
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="text">
-                                    <div class="text-fild">
-                                        <span>Image:</span>
-                                        <div ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ngf-drop ngf-select ng-model="files" class="drop-box"
-                                             ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
-                                             accept=".png,.jpg"
-                                             ngf-pattern="'.png,.jpg'">
-                                            {{textimage}}
-                                        </div>
-                                        {{image}}
-                                        <div class="clearfix"> </div>
-                                    </div>
-                                </div>
-                                <div class="text">
-                                    <div class="text-fild">
-                                        <span>Description:</span>
-                                        <textarea  required ng-model="categorie.description" placeholder="Description de la catégorie"> </textarea>
-                                        <div class="clearfix"> </div>
-                                    </div>
-                                </div>
-                                <div class="clearfix"> </div>
-                                <p style="margin-top: 10px;">
-                                    <input type="reset" class="p-btn" value="Annuler"/>
-                                    <input type="submit" class="p-btn" value="Enregistrer"/>
-                                </p>
-                            </form>
-                        </div>
-                        <div class="details-right-head" ng-if="choix=='ajouter-produit'">
+                        <div class="details-right-head">
                             <form ng-submit="enregistrerProduit(new_produit)" enctype="multipart/form-data">
                                 <div class="text">
                                     <div class="text-fild">
@@ -201,18 +24,22 @@
                                 </div>
                                 <div class="text">
                                     <div class="text-fild">
+                                        <span>A contacter:</span>
+                                        <input type="number" ng-model="new_produit.acontacter" min="600000000" required class="text" placeholder="Personne à contacter">
+                                    </div>
+                                    <div class="text-fild">
                                         <span>Localisation:</span>
                                         <input type="text" ng-model="new_produit.localisation" required class="text" placeholder="Localisation">
                                     </div>
                                     <div class="text-fild">
                                         <span>Categorie:</span>
-                                        <select class="" ng-model="new_produit.categorie" required ng-options="c.id as c.nom for c in categories">
+                                        <select class="" ng-model="new_produit.categorie_id" required ng-options="c.id as c.nom for c in categories">
                                         </select>
                                     </div>
                                     <div class="clearfix"> </div>
                                 </div>
                                 <div class="text-fild">
-                                    <span>Image:</span>
+                                    <span>Image: <span style="color: #7fb082; font-weight: bold;display: inline;" ng-if="image_if">{{new_produit.images[0].name}}</span></span>
                                     <div ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ngf-drop ngf-select ng-model="files" class="drop-box"
                                          ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
                                          accept=".png,.jpg"

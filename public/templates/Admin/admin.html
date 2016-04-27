@@ -1,32 +1,90 @@
-<!-- bottom-grids -->
-<div class="bottom-grids collections">
+<!-- Product-Details-page -->
+<style type="text/css">
+    .details-left-info {
+        width: 100%;
+    }
+    .details-left-slider {
+        width: 25%;
+    }
+    .details-right-head{
+        float: left;
+        width: 75%;
+    }
+    .product-details h1{
+        padding: 0.5em 0 !important;
+    }
+    .text-fild{
+        width: 100%;
+    }
+</style>
+<!--- top-nav -->
+<div class="top-nav">
     <div class="container">
-        <h1>{{categorie}}</h1>
-        <p style="font-size: 14px;font-style: italic;">{{produit[0].categorie.description}}</p>
-        <div class="col-md-12 bottom-grids-left">
-            <div class="row">
-                <div ui-sref="detail({nom:p.nom})" class="item col-md-3" ng-repeat="p in produit | orderBy : '-nom' : true">
-                    <div class="product-grid">
-                        <div class="product-pic">
-                            <img ng-src="{{p.imageps[0].image}}" title="{{p.nom}}" />
-                        </div>
-                        <div class="product-pic-info">
-                            <h3><a href="#">{{p.nom}}</a></h3>
-                            <div class="product-pic-info-price-cart">
-                                <div class="product-pic-info-price">
-                                    <span>{{p.prix}} Fcfa</span>
-                                </div>
-                                <div class="product-pic-info-cart">
-                                    <a class="p-btn" href="">Consulter</a>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="clearfix"> </div>
+        <span class="menu" style="font-size: 23px;text-align: center;">Menu</span>
+        <ul>
+            <li><a ui-sref="accueil">Accueil</a></li>
+            <li ng-class="{'active':choix=='liste-categorie'}" ng-click="choix='liste-categorie'; message_if=false"><a ui-sref="admin">Catégories</a></li>
+            <li ng-class="{'active':choix=='liste-produit'}" ng-click="choix='liste-produit'; message_if=false" ><a ui-sref="liste-produit">Produits</a></li>
+            <li ng-class="{'active':choix=='ajouter-categorie'}" ng-click="choix='ajouter-categorie'; message_if=false"><a ui-sref="form-categorie">Ajouter catégorie</a></li>
+            <li ng-class="{'active':choix=='ajouter-produit'}" ng-click="choix='ajouter-produit'; message_if=false"><a ui-sref="form-produit">Ajouter produit</a></li>
+            <div class="clearfix"> </div>
+        </ul>
     </div>
 </div>
-<!-- bottom-grids -->
+<!--- top-nav -->
+
+<div class="details-page" ui-view="content">
+    <div class="content details-page">
+        <!---start-product-details--->
+        <div class="product-details" style="min-height: inherit">
+            <div class="container">
+                <div class="details-left" style="width: 100%;">
+                    <div class="details-left-info">
+                        <div ng-if="message_if" style="margin: 10px auto;padding: 5px 0; color: #7fb082">
+                            {{message}}
+                        </div>
+                        <div class="details-right-head" style="width: 100%;">
+
+                            <div style="float: left; width: 75%; margin: 10px auto;">
+                                <input type="text" ng-model="searchKeyCategorie" placeholder="Entrer un mot-clé" class="input"/>
+                            </div>
+                            <div style="float: right; width: 20%; margin: 10px auto;">
+                                <input type="number" ng-model="par_page" placeholder="Nombre" class="input"/>
+                            </div>
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Description</th>
+                                    <th>Image</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr dir-paginate="c in categories |filter:searchKeyCategorie | orderBy : '-nom' : true| itemsPerPage: par_page ">
+                                    <td>{{c.nom}}n</td>
+                                    <td>{{c.description}}</td>
+                                    <td><img src="{{c.image}}" alt="{{c.nom}}" title="{{c.nom}}"/></td>
+                                    <td>
+                                        <i class="fa fa-edit"  ui-sref="form-categorie({id:c.id})"></i>
+                                        <i class="fa fa-trash" ng-click="supprimerCategorie(c)"></i>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center" >
+                                <dir-pagination-controls></dir-pagination-controls>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <!---//End-product-details--->
+        </div>
+    </div>
+</div>
+<!-- /Product-Details-page -->

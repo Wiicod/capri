@@ -1,10 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="footer" style="padding: 1em 0">
+    <div class="container">
+        <div class="footer-grids hide">
+            <div class="col-md-3 footer-grid">
+                <h3>Categories</h3>
+                <ul>
+                    <li><a href="templates/about.html">Categorie ici</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid">
+                <h3>Localisations</h3>
+                <ul>
+                    <li><a href="index.html">Localisation ici</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid testmonial hide">
+                <h3>Testimonials</h3>
+                <div class="testmonial-grid">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.</p>
+                    <a href="#">John Smith,<span>Occupation</span></a>
+                </div>
+                <div class="clearfix"> </div>
+                <div class="testmonial-grid">
+                    <p>In reprehenderit in voluptate velit esse cillum.</p>
+                    <a href="#">John Smith,<span>Occupation</span></a>
+                </div>
+            </div>
+            <div class="col-md-6 footer-grid about-grid">
+                <h3>A propose</h3>
+                <p>Aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <!-- social-icons -->
+        <div class="social-icons text-center hide">
+            <ul>
+                <li><a href="#"><span class="facebook"> </span></a></li>
+                <li><a href="#"><span class="twitter"> </span></a></li>
+            </ul>
+        </div>
+        <!-- social-icons -->
+        <!-- footer-bottom -->
+        <div class="footer-bottom">
+            <div class="footer-bottom-left">
+                <p>Logo &#169; {{currentDate | date:'yyyy'}} Tous droits reservés | par <a href="http://www.wiicod.com/">Wiicod </a></p>
+            </div>
+            <div class="footer-bottom-right">
+                <p>
+                    <span ng-if="langue=='en'">Français</span>
+                    <span ng-if="langue=='fr'">English</span>
+                </p>
+            </div>
+            <div class="clearfix"> </div>
+            <!-- footer-bottom -->
+        </div>
+    </div>
+</div>
+<!-- footer -->

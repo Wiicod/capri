@@ -1,10 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
 
-</body>
-</html>
+<div class="banner">
+    <div class="container">
+        <!--- img-slider --->
+        <div class="img-slider">
+            <!----start-slider-script---->
+            <script src="js/responsiveslides.min.js"></script>
+            <script>
+                // You can also use "$(window).load(function() {"
+                $(function () {
+                    // Slideshow 4
+                    $("#slider4").responsiveSlides({
+                        auto: true,
+                        pager: true,
+                        nav: false,
+                        speed: 700,
+                        namespace: "callbacks",
+                        before: function () {
+                            $('.events').append("<li>before event fired.</li>");
+                        },
+                        after: function () {
+                            $('.events').append("<li>after event fired.</li>");
+                        }
+                    });
+
+                });
+            </script>
+            <!----//End-slider-script---->
+            <!-- Slideshow 4 -->
+            <div  id="top" class="callbacks_container">
+                <ul class="rslides" id="slider4">
+                    <li>
+                        <img class="img-responsive" src="images/slide/a.jpg" alt="">
+                        <div class="slider-caption">
+                            <h1>Titre de l'image</h1>
+                            <p>Texte pour accompagner l'image</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="images/slide/x.jpg" alt="">
+                        <div class="slider-caption">
+                            <h1>Titre de l'image</h1>
+                            <p>Texte pour accompagner l'image</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="images/slide/s.jpg" alt="">
+                        <div class="slider-caption">
+                            <h1>Titre de l'image</h1>
+                            <p>Texte pour accompagner l'image</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <!-- slider -->
+    </div>
+</div>
+<!-- banner -->
+<!-- top-grids -->
+<div class="top-grids">
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 20px;">Nos catégories</h1>
+        <div class="col-md-4 top-grid text-center" ng-repeat="c in categoriePhare |limitTo:6| orderBy:'-nom':true">
+            <div class="top-grid-pic">
+                <img src="{{c.image}}" title="Boots" width="320px" height="300px" />
+                <span style="display: block">{{c.nom}}</span>
+            </div>
+            <div class="top-grid-pic-info">
+                <a ui-sref="catalogue({categorie:c.nom})">Consulter</a>
+            </div>
+        </div>
+        <p style="text-align: center">
+            <a ui-sref="categorie" class="bouton">Plus</a>
+        </p>
+
+        <div class="clearfix"> </div>
+    </div>
+</div>
+<!-- top-grids -->

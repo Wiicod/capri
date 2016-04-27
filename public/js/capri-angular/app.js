@@ -11,6 +11,7 @@
             'ngFileUpload',
             'ngMdIcons',
             'ngKookies',
+            'angularUtils.directives.dirPagination',
             'angular-loading-bar'
         ])
         .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {

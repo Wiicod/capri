@@ -1,0 +1,7 @@
+Voici la liste des pb que tu dois resourdre
+- supprimer categorie
+- l'upload des fichiers (regarde les controleur FormCategorieCtrl et FormProduitCtrl, ainsi que leurs vues form-categorie et form-produit
+tu verras que les codes sont identiques mais l'upload de categorie ne marche pas)
+
+Merci
+La presentation c'est jeudi. à 16h.

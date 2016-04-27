@@ -2,22 +2,19 @@
  * Created by Evaris on 17/02/2016.
  */
 
-
-
-
 app
-    .controller('LoginCtrl', ['$scope', 'Upload', '$timeout', '$state', 'LoginFactory', '$rootScope', 'ProduitFactory',
-        function ($scope, Upload, $timeout, $state, LoginFactory, $rootScope, ProduitFactory) {
+    .controller('LoginCtrl', ['$scope', 'Upload', '$timeout', '$state', 'LoginFactory', '$stateParams', 'ProduitFactory',
+        function ($scope, Upload, $timeout, $state, LoginFactory, $stateParams, ProduitFactory) {
 
-
+            console.log("qsd");
             $scope.$watch('files', function () {
                 $scope.upload($scope.files);
             });
-            $scope.$watch('file', function () {
-                if ($scope.file != null) {
-                    $scope.files = [$scope.file];
-                }
-            });
+            //$scope.$watch('file', function () {
+            //    if ($scope.file != null) {
+            //        $scope.files = [$scope.file];
+            //    }
+            //});
             $scope.log = '';
 
             $scope.new_produit = {
@@ -27,7 +24,7 @@ app
                 localisation: "Douala",
                 acontacter: "+2375634654",
                 etat:"neuv",
-                categorie_id:2,
+                categorie_id:1,
                 images: []
             };
 
@@ -40,8 +37,6 @@ app
                             $scope.new_produit.images.push(file);
                         }
                     }
-
-
                     console.log($scope.new_produit);
 
                 }
@@ -71,73 +66,6 @@ app
 
 
         }])
-    .controller('SommaireCtrl', ['$scope', '$mdDialog', 'datas', 'DonneeFactory', function ($scope, $mdDialog, datas, DonneeFactory) {
-
-        DonneeFactory.get_trafic_bilan(datas.operateur, datas.trafic, datas.annee).then(function (data) {
-            $scope.trafics = data;
-        });
-
-        $scope.totalize = function (index) {
-
-            var tags = $scope.valeur.unit;
-            var ufac = 1;
-            if (tags == 's') {
-                ufac = 1;
-            } else if (tags == 'min') {
-                ufac = 1 / 60;
-            }
-            else if (tags == 'h') {
-                ufac = 1 / 3600;
-            } else if (tags == 'j') {
-                ufac = 1 / (3600 * 24);
-            } else if (tags == 'annee') {
-                ufac = 1 / (3600 * 24 * 365);
-            }
-            $scope.trafics[index].prix = ($scope.trafics[index].value * $scope.trafics[index].taxe * ufac);
-
-            $scope.total2 = 0;
-            angular.forEach($scope.trafics, function (da) {
-                var temp = da.prix || 0;
-                $scope.total2 += temp;
-            });
-        };
-
-
-        $scope.hide = function () {
-            $mdDialog.hide();
-        };
-        $scope.cancel = function () {
-            $mdDialog.cancel();
-        };
-        $scope.answer = function (answer) {
-            $mdDialog.hide(answer);
-        };
-
-        $scope.valeur = {
-            options: [
-                {
-                    "iso": "s",
-                    "name": "s"
-                },
-                {
-                    "iso": "min",
-                    "name": "min"
-                },
-                {
-                    "iso": "h",
-                    "name": "Heure"
-                },
-                {
-                    "iso": "j",
-                    "name": "Jour"
-                },
-                {
-                    "iso": "annee",
-                    "name": "Annee"
-                }],
-            unit: 's'
-        };
-    }])
     .controller('EnteteCtrl', ['$scope', '$mdMedia', 'OperateurFactory', '$mdSidenav', '$log', '$state', 'LoginFactory', '$mdToast',
         function ($scope, $mdMedia, OperateurFactory, $mdSidenav, $log, $state, LoginFactory, $mdToast) {
 
@@ -163,101 +91,224 @@ app
             }
 
         }])
-    .controller('AccueilCtrl', ['$scope', '$mdToast', '$mdMedia', 'OperateurFactory', '$mdSidenav', '$log', '$state', 'LoginFactory',
-        function ($scope, $mdToast, $mdMedia, OperateurFactory, $mdSidenav, $log, $state, LoginFactory) {
 
-
-            $scope.operateurs = [];
-
-            OperateurFactory.getOperateurs().then(
-                function (data) {
-                    $scope.operateurs = data;
-                }, function (msg) {
-                    //console.info(msg);
-                    $mdToast.show(
-                        $mdToast.simple()
-                            .textContent(msg)
-                            .hideDelay(3000)
-                    );
-                }
-            );
-
-
-            $scope.toggleLeft = buildDelayedToggler('left');
-            $scope.detail = function (id) {
-
-                OperateurFactory.getOperateur(id).then(function (data) {
-                    $scope.operateur = data;
-                }, function (msg) {
-                    $mdToast.show(
-                        $mdToast.simple()
-                            .textContent(msg)
-                            .hideDelay(3000)
-                    );
+    .controller('AccueilCtrl', ['$scope','CategorieFactory','ProduitFactory',
+        function ($scope,CategorieFactory,ProduitFactory) {
+            $scope.menu='accueil';
+            // Chargement des categories
+            CategorieFactory.getAll().then(function(data){
+                $scope.categoriePhare=data;
+            })
+        }])
+    .controller('CategorieCtrl', ['$scope','CategorieFactory',
+        function ($scope,CategorieFactory) {
+            $scope.menu='categorie';
+            // Chargement des categories
+            CategorieFactory.getAll().then(function(data){
+                $scope.categorie=data;
+            })
+        }])
+    .controller('CatalogueCtrl', ['$scope','ProduitFactory','$filter','$stateParams',
+        function ($scope,ProduitFactory,$filter,$stateParams) {
+            $scope.menu='categorie';
+            $scope.categorie=$stateParams.categorie;
+            // Chargement des categories
+            ProduitFactory.getAll().then(function(data){
+                //filtre suivant la categorie
+                $scope.produit=[];
+                angular.forEach(data, function(value,key){
+                    if(value.categorie.nom==$stateParams.categorie)
+                    {
+                        $scope.produit.push(value);
+                    }
                 });
-                $scope.toggleRight();
-            };
-            $scope.toggleRight = buildToggler('right');
+            })
+        }])
+    .controller('DetailCtrl', ['$scope','ProduitFactory','$filter','$stateParams',
+        function ($scope,ProduitFactory,$filter,$stateParams) {
+            // Chargement des categories
+            ProduitFactory.getAll().then(function(data){
+                //filtre suivant la categorie
+                $scope.produit=$filter("filter")(data,{nom:$stateParams.nom},true)[0];
+            })
+        }])
+    .controller('AdminCtrl', ['$scope','ProduitFactory','CategorieFactory',
+        function ($scope,ProduitFactory,CategorieFactory) {
+            $scope.new_categorie={};
+            test = { filescat : []};
+            $scope.par_page=30;
 
-            $scope.isOpenRight = function () {
-                return $mdSidenav('right').isOpen();
+            // Chargement des categories
+            CategorieFactory.getAll().then(function(data){
+                $scope.categories=data;
+                console.info("Categorie",data);
+            });
+
+            // Chargement des Produits
+            ProduitFactory.getAll().then(function(data){
+                $scope.produits=data;
+                //console.log("produit",data);
+            })
+
+            $scope.choix='liste-categorie';
+
+
+
+            $scope.supprimerProduit=function(produit){
+                ProduitFactory.delete(produit).then(function(data){
+                    $scope.message_if=true;
+                    $scope.message=data.msg;
+                })
             };
-            /**
-             * Supplies a function that will continue to operate until the
-             * time is up.
-             */
-            function debounce(func, wait, context) {
-                var timer;
-                return function debounced() {
-                    var context = $scope,
-                        args = Array.prototype.slice.call(arguments);
-                    $timeout.cancel(timer);
-                    timer = $timeout(function () {
-                        timer = undefined;
-                        func.apply(context, args);
-                    }, wait || 10);
-                };
+
+            $scope.supprimerCategorie=function(categorie){
+                console.log(categorie)
+                CategorieFactory.delete(categorie).then(function(data){
+                    $scope.message_if=true;
+                    console.log(data);
+                    $scope.message=data.msg;
+                },function(data){
+                    console.log(data);
+                })
+            };
+        }])
+    .controller('FormProduitCtrl', ['$scope', '$stateParams', 'ProduitFactory',
+        function ($scope,$stateParams, ProduitFactory) {
+            $scope.choix='ajouter-produit';
+            $scope.message_if=false;
+
+            $scope.image_if=false;
+            $scope.$watch('files', function () {
+                $scope.upload($scope.files);
+            });
+
+            $scope.new_produit = {
+                images: []
+            };
+
+            if($stateParams.id!=null){
+                ProduitFactory.get($stateParams.id).then(function(data){
+                    $scope.produit=data;
+                })
             }
 
-            /**
-             * Build handler to open/close a SideNav; when animation finishes
-             * report completion in console
-             */
-            function buildDelayedToggler(navID) {
-                return debounce(function () {
-                    $mdSidenav(navID)
-                        .toggle()
-                        .then(function () {
-                            $log.debug("toggle " + navID + " is done");
-                        });
-                }, 200);
-            }
+            $scope.upload = function (files) {
+                if (files && files.length) {
 
-            function buildToggler(navID) {
-                return function () {
-                    $mdSidenav(navID)
-                        .toggle()
-                        .then(function () {
-                            $log.debug("toggle " + navID + " is done");
-                        });
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+                        if (!file.$error) {
+                            $scope.new_produit.images.push(file);
+                            $scope.image_if=true;
+                        }
+                    }
+                    console.log($scope.new_produit);
+
                 }
-            }
+            };
 
-            $scope.close = function () {
-                $mdSidenav('right').close()
-                    .then(function () {
-                        $scope.operateur = {};
-                        $log.debug("close RIGHT is done");
-                    });
+            $scope.img_key = 'img/cle.png';
+
+            $scope.hoverIn = function () {
+                $scope.textimage = 'Deposez l\'image ici';
+            };
+
+            $scope.textimage = 'Cliquez ou faites glisser l\'image ici';
+
+            $scope.hoverOut = function () {
+                $scope.textimage = 'Cliquez ou faites glisser l\'image ici';
+            };
+
+            $scope.enregistrerProduit = function (produit) {
+                produit.image=$scope.new_produit.images;
+                if($stateParams.id!=null){
+                    produit.id=$stateParams.id;
+                }
+                produit.etat="neuf";
+                ProduitFactory.add(produit).then(function(data){
+                    console.log(data);
+                    $scope.message="Nouveau produit créé";
+                    if($stateParams.id!=null){
+                        $scope.message="Produit mise à jour";
+                    }
+                    $scope.message_if=true;
+                    $scope.produit={};
+                },function(msg){
+                    console.log(msg);
+                });
             };
 
 
         }])
-    .controller('ProduitCtrl', ['$scope', '$mdToast', '$mdMedia', 'OperateurFactory', '$mdSidenav', '$log', '$state', 'LoginFactory',
-        function ($scope, $mdToast, $mdMedia, OperateurFactory, $mdSidenav, $log, $state, LoginFactory) {
+    .controller('FormCategorieCtrl', ['$scope', '$stateParams', 'CategorieFactory',
+        function ($scope,$stateParams, CategorieFactory) {
+            $scope.choix='ajouter-categorie';
+            $scope.message_if=false;
+
+            $scope.image_if=false;
+            $scope.$watch('files', function () {
+                $scope.upload($scope.files);
+            });
+
+            $scope.new_categorie = {
+                images: []
+            };
+
+            if($stateParams.id!=null){
+                CategorieFactory.get($stateParams.id).then(function(data){
+                    $scope.categorie=data;
+                })
+            }
+
+            $scope.upload = function (files) {
+                if (files && files.length) {
+
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+                        if (!file.$error) {
+                            $scope.new_categorie.images.push(file);
+                            $scope.image_if=true;
+                        }
+                    }
+                    console.log($scope.new_categorie);
+
+                }
+            };
+
+            $scope.img_key = 'img/cle.png';
+
+            $scope.hoverIn = function () {
+                $scope.textimage = 'Deposez l\'image ici';
+            };
+
+            $scope.textimage = 'Cliquez ou faites glisser l\'image ici';
+
+            $scope.hoverOut = function () {
+                $scope.textimage = 'Cliquez ou faites glisser l\'image ici';
+            };
+
+            $scope.enregistrerCategorie = function (categorie) {
+                categorie.images=$scope.new_categorie.images;
+                if($stateParams.id!=null){
+                    categorie.id=$stateParams.id;
+                }
+                CategorieFactory.add(categorie).then(function(data){
+                    console.log(data);
+                    $scope.message="Nouvelle catégorie créée";
+                    if($stateParams.id!=null){
+                        $scope.message="Catégorie mise à jour";
+                    }
+                    $scope.message_if=true;
+                    $scope.categorie={};
+                },function(msg){
+                    console.log(msg);
+                });
+            };
+
+
         }])
-    .controller('Part1Ctrl', ['$scope', '$mdToast', '$mdMedia', 'OperateurFactory', '$mdSidenav', '$log', '$state', 'LoginFactory',
-        function ($scope, $mdToast, $mdMedia, OperateurFactory, $mdSidenav, $log, $state, LoginFactory) {
+    .controller('FooterCtrl', ['$scope',
+        function ($scope) {
+            $scope.currentDate=new Date();
         }])
 ;
-

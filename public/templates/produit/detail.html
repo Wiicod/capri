@@ -1,3 +1,66 @@
-<h1>detail des produits ici</h1>
-<div ui-view="body1"></div>
-<div ui-view="body2"></div>
+<style type="text/css">
+    .product-details{
+        min-height: 300px;
+    }
+</style>
+
+<!-- Product-Details-page -->
+<div class="details-page">
+    <div class="content details-page">
+        <!---start-product-details--->
+        <div class="product-details">
+            <div class="container">
+                <ul class="product-head">
+                    <li><a ui-sref="catalogue({categorie:produit.categorie.nom})">{{produit.categorie.nom}}</a> <span>:</span></li>
+                    <li class="active-page">{{produit.nom}}</li>
+                    <div class="clearfix"> </div>
+                </ul>
+                <!----details-product-slider--->
+                <!-- Include the Etalage files -->
+
+                <!-- Include the Etalage files -->
+
+                <!----//details-product-slider--->
+                <div class="details-left" style="width: 100%;">
+                    <div class="details-left-slider">
+                        <ul id="etalage" class="etalage" style="display: block; width: 314px; height: 252px;
+                        background: url({{produit.imageps[0].image}}) no-repeat;background-size: cover">
+
+                        </ul>
+                    </div>
+                    <div class="details-left-info">
+                        <div class="details-right-head">
+                            <h1>{{produit.nom}}</h1>
+                            <p class="product-detail-info">{{produit.description}}</p>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h5>Prix</h5>
+                                    <p>{{produit.prix}} Fcfa</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <h5>Localisation</h5>
+                                    <p>{{produit.localisation}}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <h5>Numero à contacter</h5>
+                                    <p>{{produit.acontacter}}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <h5>Catégorie</h5>
+                                    <p>{{produit.categorie.nom}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="details-right hide">
+
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <!---//End-product-details--->
+        </div>
+    </div>
+</div>
+<!-- /Product-Details-page -->
