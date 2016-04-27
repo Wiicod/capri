@@ -1,0 +1,15 @@
+<!--- top-nav -->
+<div class="top-nav">
+    <div class="container">
+        <span class="menu" style="font-size: 23px;text-align: center;">Menu</span>
+        <ul>
+            <li ng-click="menu='accueil'" ng-class="{'active': menu=='accueil'}"><a ui-sref="accueil">Accueil<span> </span></a></li>
+            <li ng-click="menu='categorie'" ng-class="{'active': menu=='categorie'}"><a ui-sref="categorie">Catégories<span> </span></a></li>
+            <li ng-click="menu='produit'" ng-class="{'active': menu=='produit'}"><a ui-sref="nouveau">Nouveaux Produits<span> </span></a></li>
+            <li ng-click="menu='apropos'" ng-class="{'active': menu=='apropos'}"><a ui-sref="apropos">A propos<span> </span></a></li>
+            <li ng-click="menu='contact'" ng-class="{'active': menu=='contact'}"><a ui-sref="contacts">Contacts<span> </span></a></li>
+            <div class="clearfix"> </div>
+        </ul>
+    </div>
+</div>
+<!--- top-nav -->

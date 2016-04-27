@@ -7,6 +7,7 @@ use App\Produit;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,13 +20,13 @@ class ImagepController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id=null)
+    public function index($id = null)
     {
         //
         if ($id == null) {
 
             return Response::json(array(
-                'imageps'=>  Imagep::orderBy('produit_id', 'asc')->get() ,
+                'imageps' => Imagep::orderBy('produit_id', 'asc')->get(),
             ), 200);
         } else {
             return $this->show($id);
@@ -45,52 +46,52 @@ class ImagepController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
 
 
-        if(Input::get('id')){
-            return $this->update($request,Input::get('id'));
+        if (Input::get('id')) {
+            return $this->update($request, Input::get('id'));
         }
 
-        if(Input::get('produit')==null){
+        if (Input::get('produit') == null) {
             return Response::json(array(
-                'error'=>  'Veuillez renseigner le produit de cet\'image ' ,
+                'error' => 'Veuillez renseigner le produit de cet\'image ',
             ), 405);
         }
-        if(Input::get('image')==null){
-                    return Response::json(array(
-                        'error'=>  'Veuillez renseigner le fichier (image) de cet\'image ' ,
-                    ), 405);
-        }
         $p = Produit::find(Input::get('produit'));
-        if($p==null){
+        if ($p == null) {
             return Response::json(array(
-                'error'=>  'Le produit renseigne n\'existe pas ' ,
+                'error' => 'Le produit renseigne n\'existe pas ',
             ), 404);
         }
 
 
         //dd(Input::file('image'));
         $ip = new Imagep();
-        $ip->image="default.png";
+        $ip->image = "default.png";
         $ip->produit()->associate($p);
         $image = Input::file('image');
-        if(is_array($res=$this->save($ip))){
+        if ($image == null) {
             return Response::json(array(
-                'error'=>  $res[2] ,
+                'error' => 'Veuillez renseigner le fichier (image) de cet\'image ',
+            ), 405);
+        }
+        if (is_array($res = $this->save($ip))) {
+            return Response::json(array(
+                'error' => $res[2],
             ), 402);
         }
-        if($image){
-            $ip->image =$this->upload($image,$ip->id);
-            $this->save($ip);
-        }
+
+        $ip->image = $this->upload($image, $ip->id);
+        $this->save($ip);
+
 
         return Response::json(array(
-            'imagep'=>  $ip,
+            'imagep' => $ip,
         ), 200);
 
     }
@@ -98,20 +99,20 @@ class ImagepController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
-        $ip= Imagep::find($id);
-        if($ip){
+        $ip = Imagep::find($id);
+        if ($ip) {
             return Response::json(array(
-                'imageps'=>  $ip ,
+                'imageps' => $ip,
             ), 200);
-        }else{
+        } else {
             return Response::json(array(
-                'error'=>  'L\'image du produit non trouve' ,
+                'error' => 'L\'image du produit non trouve',
             ), 404);
         }
     }
@@ -119,7 +120,7 @@ class ImagepController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -130,80 +131,84 @@ class ImagepController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         //
-        $ip =Imagep::find($id);
-        if($ip==null){
+        $ip = Imagep::find($id);
+        if ($ip == null) {
             return Response::json(array(
-                'error'=>  'L\'image du produit renseigne n\'existe pas ' ,
+                'error' => 'L\'image du produit renseigne n\'existe pas ',
             ), 404);
         }
 
-        if(Input::get('produit')){
+        if (Input::get('produit')) {
             $p = Produit::find(Input::get('produit'));
-            if($p==null){
+            if ($p == null) {
                 return Response::json(array(
-                    'error'=>  'Le produit renseigne n\'existe pas ' ,
+                    'error' => 'Le produit renseigne n\'existe pas ',
                 ), 404);
             }
             $ip->produit()->associate($p);
 
         }
-        if( $image=Input::get('image')){
-            $ip->image =$this->upload($image,$ip->id);
+        if ($image = Input::file('image')) {
+            if (Storage::has($ip->image))
+                Storage::delete($ip->image);
+            $ip->image = $this->upload($image, $ip->id);
             $this->save($ip);
         }
 
         return Response::json(array(
-            'imagep'=>  $ip,
+            'imagep' => $ip,
         ), 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
         $ip = Imagep::find($id);
-        if($ip==null){
+        if ($ip == null) {
             return Response::json(array(
-                'error'=>  'l\'image du produit non trouve' ,
+                'error' => 'l\'image du produit non trouve',
             ), 404);
         }
-
-        if($ip->image!="")
+        if (Storage::has($ip->image))
             Storage::delete($ip->image);
 
         $ip->delete();
         return Response::json(array(
-            'msg'=>  'l\'image du produit supprimer avec succes' ,
+            'msg' => 'l\'image du produit supprimer avec succes',
         ), 200);
     }
 
-    protected  function  save(Imagep $c){
+    protected function save(Imagep $c)
+    {
 
         try {
             $c->save();
             return true;
-        } catch ( \Illuminate\Database\QueryException $e) {
+        } catch (\Illuminate\Database\QueryException $e) {
             // var_dump($e->errorInfo );
             return $e->errorInfo;
         }
     }
 
-    protected function upload($image,$id){
+    protected function upload($image, $id)
+    {
         $extension = $image->getClientOriginalExtension();
-        $fpath="stock-images/produit/".$image->getFilename().'_'.$id.'.'.$extension;
-        Storage::disk('local')->put("stock-images/".$fpath,  File::get($image));
+        $fpath = "stock-images/produit/" . (2 * $id) . '_' . $image->getClientOriginalName();
+//        $fpath="stock-images/produit/".$image->getFilename().'_'.$id.'.'.$extension;
+        Storage::disk('local')->put($fpath, File::get($image));
         return $fpath;
     }
 }

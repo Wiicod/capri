@@ -1,0 +1,218 @@
+<!-- Product-Details-page -->
+<style type="text/css">
+    .details-left-info {
+        width: 100%;
+    }
+    .details-left-slider {
+        width: 25%;
+    }
+    .details-right-head{
+        float: left;
+        width: 75%;
+    }
+    .product-details h1{
+        padding: 0.5em 0 !important;
+    }
+    .text-fild{
+        width: 100%;
+    }
+</style>
+<!--- top-nav -->
+<div class="top-nav">
+    <div class="container">
+        <span class="menu" style="font-size: 23px;text-align: center;">Menu</span>
+        <ul>
+            <li><a ui-sref="accueil">Accueil</a></li>
+            <li ng-class="{'active':choix=='liste-categorie'}" ng-click="choix='liste-categorie'; message_if=false"><a href="">Categories</a></li>
+            <li ng-class="{'active':choix=='liste-produit'}" ng-click="choix='liste-produit';message_if=false"><a href="">Produits</a></li>
+            <li ng-class="{'active':choix=='ajouter-categorie'}" ui-sref="categorie"><a href="">Ajouter catégorie</a></li>
+            <li ng-class="{'active':choix=='ajouter-produit'}" ui-sref="produit"><a href="">Ajouter produit</a></li>
+            <div class="clearfix"> </div>
+        </ul>
+    </div>
+</div>
+<!--- top-nav -->
+
+<div class="details-page" ui-view="content">
+    <div class="content details-page">
+        <!---start-product-details--->
+        <div class="product-details" style="min-height: inherit">
+            <div class="container">
+                <div class="details-left" style="width: 100%;">
+                    <div class="details-left-info">
+                        <div ng-if="message_if" style="margin: 10px auto;padding: 5px 0; color: #7fb082">
+                            {{message}}
+                        </div>
+                        <div class="details-right-head" style="width: 100%;" ng-if="choix=='liste-categorie'">
+
+                            <div style="float: left; width: 75%; margin: 10px auto;">
+                                <input type="text" ng-model="searchKeyCategorie" placeholder="Entrer un mot-clé" class="input"/>
+                            </div>
+                            <div style="float: right; width: 20%; margin: 10px auto;">
+                                <input type="number" ng-model="par_page" placeholder="Nombre" class="input"/>
+                            </div>
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Description</th>
+                                    <th>Image</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr dir-paginate="c in categories |filter:searchKeyCategorie | orderBy : '-nom' : true| itemsPerPage: par_page ">
+                                    <td>{{c.nom}}n</td>
+                                    <td>{{c.description}}</td>
+                                    <td><img src="{{c.image}}" alt="{{c.nom}}" title="{{c.nom}}"/></td>
+                                    <td>
+                                        <i class="fa fa-edit"  ui-sref="form-categorie({id:c.id})"></i>
+                                        <i class="fa fa-trash" ng-click="supprimerCategorie(c)"></i>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center" >
+                                <dir-pagination-controls></dir-pagination-controls>
+                            </div>
+
+                        </div>
+                        <div class="details-right-head" style="width: 100%;" ng-if="choix=='liste-produit'">
+                            <div style="float: left; width: 75%; margin: 10px auto;">
+                                <input type="text" placeholder="Entrer un mot-clé" ng-model="searchKeyProduct" class="input"/>
+                            </div>
+                            <div style="float: right; width: 20%; margin: 10px auto;">
+                                <input type="number" ng-model="par_page" placeholder="Nombre" class="input"/>
+                            </div>
+
+                            <table class="table table-striped table-responsive">
+                                <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Description</th>
+                                    <th>Image</th>
+                                    <th>Prix</th>
+                                    <th>Catégorie</th>
+                                    <th>Localisation</th>
+                                    <th>A contacter</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr dir-paginate="p in produits |filter:searchKeyProduct | orderBy : '-nom' : true| itemsPerPage: par_page ">
+                                    <td>{{p.nom}}</td>
+                                    <td>{{p.description}}</td>
+                                    <td><img src="{{p.imageps[0].image}}" alt="{{p.nom}}" title="{{p.nom}}"/></td>
+                                    <td>{{p.prix}}</td>
+                                    <td>{{p.categorie.nom}}</td>
+                                    <td>{{p.localisation}}</td>
+                                    <td>{{p.acontacter}}</td>
+                                    <td>
+                                        <i class="fa fa-edit" ui-sref="form-produit({id:p.id})"></i>
+                                        <i class="fa fa-trash" ng-click="supprimerProduit(p)"></i>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center" >
+                                <dir-pagination-controls></dir-pagination-controls>
+                            </div>
+
+                        </div>
+                        <div class="details-right-head" ng-if="choix=='ajouter-categorie'">
+                            <form ng-submit="enregistrerCategorie(categorie)">
+                                <div class="text">
+                                    <div class="text-fild">
+                                        <span>Nom:</span>
+                                        <input type="text" class="text" required ng-model="categorie.nom" placeholder="Nom de la catégorie">
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <div class="text">
+                                    <div class="text-fild">
+                                        <span>Image:</span>
+                                        <div ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()"
+                                             ngf-drop ngf-select ng-model="test.filescat" class="drop-box"
+                                             ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+                                             accept=".png,.jpg"
+                                             ngf-pattern="'.png,.jpg'">
+                                            {{textimage}}
+                                        </div>
+                                        {{image}}
+                                        <div class="clearfix"> </div>
+                                    </div>
+                                </div>
+                                <div class="text">
+                                    <div class="text-fild">
+                                        <span>Description:</span>
+                                        <textarea  required ng-model="categorie.description" placeholder="Description de la catégorie"> </textarea>
+                                        <div class="clearfix"> </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"> </div>
+                                <p style="margin-top: 10px;">
+                                    <input type="reset" class="p-btn" value="Annuler"/>
+                                    <input type="submit" class="p-btn" value="Enregistrer"/>
+                                </p>
+                            </form>
+                        </div>
+                        <div class="details-right-head" ng-if="choix=='ajouter-produit'">
+                            <form ng-submit="enregistrerProduit(new_produit)" enctype="multipart/form-data">
+                                <div class="text">
+                                    <div class="text-fild">
+                                        <span>Nom:</span>
+                                        <input type="text" ng-model="new_produit.nom" required class="text" placeholder="Nom du produit">
+                                    </div>
+                                    <div class="text-fild">
+                                        <span>Prix:</span>
+                                        <input type="number" min="1" ng-model="new_produit.prix" required class="text" placeholder="Prix">
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <div class="text">
+                                    <div class="text-fild">
+                                        <span>Localisation:</span>
+                                        <input type="text" ng-model="new_produit.localisation" required class="text" placeholder="Localisation">
+                                    </div>
+                                    <div class="text-fild">
+                                        <span>Categorie:</span>
+                                        <select class="" ng-model="new_produit.categorie" required ng-options="c.id as c.nom for c in categories">
+                                        </select>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <div class="text-fild">
+                                    <span>Image:</span>
+                                    <div ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ngf-drop ngf-select ng-model="files" class="drop-box"
+                                         ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+                                         accept=".png,.jpg"
+                                         ngf-pattern="'.png,.jpg'">
+                                        {{textimage}}
+                                    </div>
+                                    {{image}}
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <div class="message-fild">
+                                    <span>Description:</span>
+                                    <textarea ng-model="new_produit.description" required placeholder="Description"> </textarea>
+                                </div>
+                                <p style="margin-top: 10px;">
+                                    <input type="reset" class="p-btn" value="Annuler"/>
+                                    <input type="submit" class="p-btn" value="Enregistrer"/>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="details-right hide">
+
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <!---//End-product-details--->
+        </div>
+    </div>
+</div>
+<!-- /Product-Details-page -->

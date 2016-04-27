@@ -1,0 +1,32 @@
+<!-- bottom-grids -->
+<div class="bottom-grids collections">
+    <div class="container">
+        <h1>{{categorie}}</h1>
+        <p style="font-size: 14px;font-style: italic;">{{produit[0].categorie.description}}</p>
+        <div class="col-md-12 bottom-grids-left">
+            <div class="row">
+                <div ui-sref="detail({nom:p.nom})" class="item col-md-3" ng-repeat="p in produit | orderBy : '-nom' : true">
+                    <div class="product-grid">
+                        <div class="product-pic">
+                            <img ng-src="{{p.imageps[0].image}}" title="{{p.nom}}" />
+                        </div>
+                        <div class="product-pic-info">
+                            <h3><a href="#">{{p.nom}}</a></h3>
+                            <div class="product-pic-info-price-cart">
+                                <div class="product-pic-info-price">
+                                    <span>{{p.prix}} Fcfa</span>
+                                </div>
+                                <div class="product-pic-info-cart">
+                                    <a class="p-btn" href="">Consulter</a>
+                                </div>
+                                <div class="clearfix"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+<!-- bottom-grids -->

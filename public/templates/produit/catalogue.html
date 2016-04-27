@@ -1,0 +1,178 @@
+<!-- Product-Details-page -->
+<div class="details-page">
+    <div class="content details-page">
+        <!---start-product-details--->
+        <div class="product-details">
+            <div class="container">
+                <ul class="product-head">
+                    <li><a ui-sref="accueil">Home</a> <span>::</span></li>
+                    <li class="active-page">Product Page</li>
+                    <div class="clearfix"> </div>
+                </ul>
+                <!----details-product-slider--->
+                <!-- Include the Etalage files -->
+
+                <!-- Include the Etalage files -->
+                <script>
+                    jQuery(document).ready(function($){
+
+                        $('#etalage').etalage({
+                            thumb_image_width: 300,
+                            thumb_image_height: 400,
+                            source_image_width: 900,
+                            source_image_height: 1000,
+                            show_hint: true,
+                            click_callback: function(image_anchor, instance_id){
+                                alert('Callback example:\nYou clicked on an image with the anchor: "'+image_anchor+'"\n(in Etalage instance: "'+instance_id+'")');
+                            }
+                        });
+                        // This is for the dropdown list example:
+                        $('.dropdownlist').change(function(){
+                            etalage_show( $(this).find('option:selected').attr('class') );
+                        });
+
+                    });
+                </script>
+                <!----//details-product-slider--->
+                <div class="details-left">
+                    <div class="details-left-slider">
+                        <ul id="etalage" class="etalage" style="display: block; width: 314px; height: 552px;">
+                            <li class="etalage_thumb thumb_1" style="display: none; opacity: 0; background-image: none;">
+                                <a href="optionallink.html">
+                                    <img class="etalage_thumb_image" src="images/product-slide/image1_thumb.jpeg" style="display: inline; width: 300px; height: 400px; opacity: 1;">
+                                    <img class="etalage_source_image" src="images/product-slide/image1_large.jpeg">
+                                </a>
+                            </li>
+                            <li class="etalage_thumb thumb_2" style="display: none; opacity: 0; background-image: none;">
+                                <img class="etalage_thumb_image" src="images/product-slide/image2_thumb.jpeg" style="display: inline; width: 300px; height: 400px; opacity: 1;">
+                                <img class="etalage_source_image" src="images/product-slide/image2_large.jpeg">
+                            </li>
+                            <li class="etalage_thumb thumb_3 etalage_thumb_active" style="display: list-item; opacity: 1; background-image: none;">
+                                <img class="etalage_thumb_image" src="images/product-slide/image3_thumb.jpeg" style="display: inline; width: 300px; height: 400px; opacity: 1;">
+                                <img class="etalage_source_image" src="images/product-slide/image3_large.jpeg">
+                            </li>
+                            <li class="etalage_thumb thumb_4" style="display: none; opacity: 0; background-image: none;">
+                                <img class="etalage_thumb_image" src="images/product-slide/image4_thumb.jpeg" style="display: inline; width: 300px; height: 400px; opacity: 1;">
+                                <img class="etalage_source_image" src="images/product-slide/image4_large.jpeg">
+                            </li>
+                            <li class="etalage_thumb thumb_5" style="display: none; opacity: 0; background-image: none;">
+                                <img class="etalage_thumb_image" src="images/product-slide/image5_thumb.jpeg" style="display: inline; width: 300px; height: 400px; opacity: 1;">
+                                <img class="etalage_source_image" src="images/product-slide/image5_large.jpeg">
+                            </li>
+                            <li class="etalage_thumb thumb_6" style="display: none; opacity: 0; background-image: none;">
+                                <img class="etalage_thumb_image" src="images/product-slide/image6_thumb.jpeg" style="display: inline; width: 300px; height: 400px; opacity: 1;">
+                                <img class="etalage_source_image" src="images/product-slide/image6_large.jpeg">
+                            </li>
+                            <li class="etalage_thumb thumb_7" style="display: none; opacity: 0; background-image: none;">
+                                <img class="etalage_thumb_image" src="images/product-slide/image1_thumb.jpeg" style="display: inline; width: 300px; height: 400px; opacity: 1;">
+                                <img class="etalage_source_image" src="images/product-slide/image1_large.jpeg">
+                            </li>
+                            <li class="etalage_magnifier" style="margin: 0px; padding: 0px; left: 6px; top: 6px; display: none; opacity: 0.05449673905968666;">
+                                <div style="margin: 0px; padding: 0px; width: 195px; height: 215px;">
+                                    <img src="images/product-slide/image3_thumb.jpg" style="margin: 0px; padding: 0px; width: 300px; height: 400px; display: inline; left: 0px; top: 0px;">
+                                </div>
+                            </li>
+                            <li class="etalage_icon" style="display: list-item; top: 380px; left: 20px; opacity: 1;">&nbsp;</li>
+                            <li class="etalage_hint" style="display: none; margin: 0px; top: -15px; right: -15px;">&nbsp;</li>
+                            <li class="etalage_zoom_area" style="margin: 0px; opacity: 0; left: 324px; display: none; background-image: none;">
+                                <div class="etalage_description" style="width: 546px; bottom: 6px; left: 6px; opacity: 0.7; display: none;"></div>
+                                <div style="width: 586px; height: 538px;"><img class="etalage_zoom_img" src="images/product-slide/image3_large.jpg" style="width: 900px; height: 1000px; left: -157.34166420232418px; top: 0px;"></div>
+                            </li>
+                            <li class="etalage_small_thumbs" style="width: 314px; top: 424px;">
+                                <ul style="width: 1072px;">
+                                    <li class="etalage_smallthumb_navtoend" style="opacity: 0.4; margin: 0px 10px 0px 0px; left: -216px;">
+                                        <img class="etalage_small_thumb" src="images/product-slide/image7_thumb.jpg" width="90" style="width: 90px; height: 120px;">
+                                    </li>
+                                    <li class="" style="opacity: 0.4; margin: 0px 10px 0px 0px; left: -216px;">
+                                        <img class="etalage_small_thumb" src="images/product-slide/image1_thumb.jpg" width="90" style="width: 90px; height: 120px;">
+                                    </li>
+                                    <li class="etalage_smallthumb_first" style="opacity: 0.4; margin: 0px 10px 0px 0px; left: -216px;">
+                                        <img class="etalage_small_thumb" src="images/product-slide/image2_thumb.jpg" width="90" style="width: 90px; height: 120px;">
+                                    </li>
+                                    <li class="etalage_smallthumb_active" style="opacity: 1; margin: 0px 10px 0px 0px; left: -216px;">
+                                        <img class="etalage_small_thumb" src="images/product-slide/image3_thumb.jpg" width="90" style="width: 90px; height: 120px;">
+                                    </li>
+                                    <li class="etalage_smallthumb_last" style="opacity: 0.4; margin: 0px 10px 0px 0px; left: -216px;">
+                                        <img class="etalage_small_thumb" src="images/product-slide/image4_thumb.jpg" width="90" style="width: 90px; height: 120px;">
+                                    </li>
+                                    <li class="" style="opacity: 0.4; margin: 0px 10px 0px 0px; left: -216px;">
+                                        <img class="etalage_small_thumb" src="images/product-slide/image5_thumb.jpg" width="90" style="width: 90px; height: 120px;">
+                                    </li>
+                                    <li class="" style="opacity: 0.4; margin: 0px 10px 0px 0px; left: -216px;">
+                                        <img class="etalage_small_thumb" src="images/product-slide/image6_thumb.jpg" width="90" style="width: 90px; height: 120px;">
+                                    </li>
+                                    <li class="" style="opacity: 0.4; margin: 0px 10px 0px 0px; left: -216px;">
+                                        <img class="etalage_small_thumb" src="images/product-slide/image7_thumb.jpg" width="90" style="width: 90px; height: 120px;">
+                                    </li>
+                                    <li class="etalage_smallthumb_navtostart" style="opacity: 0.4; margin: 0px 10px 0px 0px; left: -216px;">
+                                        <img class="etalage_small_thumb" src="images/product-slide/image1_thumb.jpg" width="90" style="width: 90px; height: 120px;">
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="details-left-info">
+                        <div class="details-right-head">
+                            <h1>Product Name Goes Here</h1>
+                            <ul class="pro-rate hide">
+                                <li><a href="#">0 Review(s) Add Review</a></li>
+                            </ul>
+                            <p class="product-detail-info">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                            <a class="learn-more" href="#"><h3>MORE DETAILS</h3></a>
+                            <div class="product-more-details">
+                                <ul class="price-avl">
+                                    <li class="price"><span>$153.39</span><label>$145.72</label></li>
+                                    <li class="stock"><i>In stock</i></li>
+                                    <div class="clearfix"> </div>
+                                </ul>
+                                <ul class="product-colors hide">
+                                    <h3>available Colors ::</h3>
+                                    <li><a class="color1" href="#"><span> </span></a></li>
+                                    <li><a class="color2" href="#"><span> </span></a></li>
+                                    <li><a class="color3" href="#"><span> </span></a></li>
+                                    <li><a class="color4" href="#"><span> </span></a></li>
+                                    <li><a class="color5" href="#"><span> </span></a></li>
+                                    <li><a class="color6" href="#"><span> </span></a></li>
+                                    <li><a class="color7" href="#"><span> </span></a></li>
+                                    <li><a class="color8" href="#"><span> </span></a></li>
+                                    <div class="clearfix"> </div>
+                                </ul>
+                                <ul class="prosuct-qty hide">
+                                    <span>Quantity:</span>
+                                    <select>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                    </select>
+                                </ul>
+
+                                <ul class="product-share hide">
+                                    <h3>All so Share On</h3>
+                                    <ul>
+                                        <li><a class="share-face" href="#"><span> </span> </a></li>
+                                        <li><a class="share-twitter" href="#"><span> </span> </a></li>
+                                        <li><a class="share-google" href="#"><span> </span> </a></li>
+                                        <li><a class="share-rss" href="#"><span> </span> </a></li>
+                                        <div class="clearfix"> </div>
+                                    </ul>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="details-right hide">
+
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <!---//End-product-details--->
+        </div>
+    </div>
+</div>
+<!-- /Product-Details-page -->
+<div ui-view="body1"></div>
+<div ui-view="body2"></div>

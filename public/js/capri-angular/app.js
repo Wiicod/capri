@@ -10,6 +10,7 @@
             'ngMessages',
             'ngFileUpload',
             'ngMdIcons',
+            'ngKookies',
             'angular-loading-bar'
         ])
         .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
@@ -23,12 +24,15 @@
 
                 $rootScope.$on('$stateChangeStart',function(event,toState,toParams,fromState){
                     $rootScope.title=toState.title;
-                    LoginFactory.check().then(function(data){
-                        $log.debug('authorize')
-                    },function(data){
-                        //$state.go('login');
-                        //$location.url('/')
-                    })
+                    if(toState.loginRequired==true){
+                        LoginFactory.check().then(function(data){
+                            $log.debug('authorize')
+                        },function(data){
+                            //$state.go('login');
+                            $location.url('/login')
+                        })
+                    }
+
                 })
 
 

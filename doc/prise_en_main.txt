@@ -1,0 +1,48 @@
+Fichier de prise main
+
+pour integrer la partie laravel
+======================================
+
+Etant dans le dossier du projet (ex C:\wamp\www\capri)
+
+1. Composer install
+
+2. creer une bd appelle capri
+
+3. si le fichier .env n'existe pas le creer et configurer la bd
+
+ex:
+------------------
+APP_ENV=local
+APP_DEBUG=true
+APP_KEY=base64:G6xflN7oUAnYeeF/6eQqCmyTqApiuT+aoThTvPdZdLo=
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=capri
+DB_USERNAME=root
+DB_PASSWORD=''
+
+----------------------
+
+4. php artisan migrate
+
+
+
+
+
+Partie Angular
+==============================================================================
+
+-jai totalement fais un example de creation de produit dans le LoginCtrl tu devra t inspirer de cela pour faire le
+le reste.
+
+-jai aussi mis des examples d heritage de vues pour que tu voiye comment xa fonctionne
+
+
+NB jai pas teste tout les services. Neamoins j ai lourdoument teste la partie serveur donc en cas d erreur il
+juste regarde cote angular.
+
+La plus part des erreurs sont capturer regarde le console javascript pour plus d infos

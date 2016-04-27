@@ -1,0 +1,61 @@
+textarea{
+    height: 200px !important;
+    resize: none;
+}
+
+.search-box {
+    float: right !important;
+}
+
+.p-btn {
+    background: #8b4613;
+    font-family: 'Lora', serif;
+    color: #FFF;
+    padding: 0.7em 1.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 0.875em;
+}
+
+input.p-btn{
+    border: none !important;
+    color: #fff !important;
+}
+
+input,textarea,select,option{
+    color: #333 !important;
+}
+
+ul.menu li{
+
+}
+
+ul.menu li a{
+    padding: 0.8em 0em;
+    font-size: 1em;
+    color: #655f5b;
+    text-decoration: none;
+    display: block;
+    position: relative;
+}
+
+ul.menu li a:hover{
+    color: #8b4613;
+}
+
+.table img{
+    width: 184px;
+    height: 93px;
+}
+
+.input{
+    border: 1px solid #b0aaa0;
+    background: #f7f6ee;
+    color: #b0aaa0;
+    padding: 0.4em 0.6em;
+    font-size: 0.875em;
+    position: relative;
+    width: 100%;
+    outline: none;
+    text-indent: 13px;
+}
