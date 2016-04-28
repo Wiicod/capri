@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ URL::asset('css/font-awesome.min.css') }}" />
     <link rel="stylesheet" href="{{ URL::asset('css/style.css') }}" />
     <link rel="stylesheet" href="{{ URL::asset('css/owl.carousel.css') }}" />
-    <link rel="icon" href="{{ URL::asset('img/fave-icon.png') }}" type="image/png" translate="none" />
+    {{--<link rel="icon" href="{{ URL::asset('img/fave-icon.png') }}" type="image/png" translate="none" />--}}
     <title ng-bind="title +' - Carpi'"></title>
 </head>
 <body  layout="column" ui-view>

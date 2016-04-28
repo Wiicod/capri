@@ -246,12 +246,11 @@ app
             $scope.message_if=false;
 
             $scope.image_if=false;
-            $scope.$watch('files', function () {
-                $scope.upload($scope.files);
+            $scope.$watch('file', function () {
+                $scope.upload($scope.file);
             });
 
             $scope.new_categorie = {
-                images: []
             };
 
             if($stateParams.id!=null){
@@ -260,19 +259,27 @@ app
                 })
             }
 
-            $scope.upload = function (files) {
-                if (files && files.length) {
+            $scope.upload = function (file) {
 
-                    for (var i = 0; i < files.length; i++) {
-                        var file = files[i];
-                        if (!file.$error) {
-                            $scope.new_categorie.images.push(file);
-                            $scope.image_if=true;
+                if(file){
+                    if (!file.$error) {
+                        $scope.new_categorie.image=file;
+                        $scope.image_if=true;
+
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            $scope.dataimg= e.target.result;
                         }
+
+                        reader.readAsDataURL(file);
                     }
-                    console.log($scope.new_categorie);
 
                 }
+
+                    console.log($scope.new_categorie);
+
+
             };
 
             $scope.img_key = 'img/cle.png';
@@ -288,7 +295,7 @@ app
             };
 
             $scope.enregistrerCategorie = function (categorie) {
-                categorie.images=$scope.new_categorie.images;
+                categorie.image=$scope.new_categorie.image;
                 if($stateParams.id!=null){
                     categorie.id=$stateParams.id;
                 }
