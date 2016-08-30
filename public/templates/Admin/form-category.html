@@ -1,0 +1,53 @@
+<div class="col-sm-12">
+    <div class="heading text-center">
+        <h2>Nouvelle catégorie</h2>
+    </div>
+</div>
+<div class="text-center">{{message}}</div>
+<div class="box">
+    <form ng-submit="saveCategory(categorie)">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="nom">Nom</label>
+                    <input id="nom" type="text" required ng-model="categorie.nom" placeholder="Nom de la catégorie" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" required ng-model="categorie.description" placeholder="Description de la catégorie" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Image</label>
+                    <div ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ngf-drop ngf-select ng-model="file" class="drop-box"
+                         ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true"
+                         accept=".png,.jpg"
+                         ngf-pattern="'.png,.jpg'">
+                        {{textimage}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Image séléctionnée</label>
+                    <div ng-if="categorie.image=='' || !image_if ">Aucune image séléctionnée</div>
+                    <div ng-if="image_if">Titre de l'image : <strong>{{new_categorie.image.name}}</strong></div>
+                    <div class="clearfix"><img src="{{categorie.image}}" class="img-responsive" alt=""/></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /.row -->
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-template-main"><i class="fa fa-save"></i> Enregistrer catégorie</button>
+        </div>
+    </form>
+
+</div>
+<!-- /.box -->

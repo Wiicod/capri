@@ -1,85 +1,56 @@
-<!-- Product-Details-page -->
-<style type="text/css">
-    .details-left-info {
-        width: 100%;
-    }
-    .details-left-slider {
-        width: 25%;
-    }
-    .details-right-head{
-        float: left;
-        width: 75%;
-    }
-    .product-details h1{
-        padding: 0.5em 0 !important;
-    }
-    .text-fild{
-        width: 100%;
-    }
-</style>
-
-<div class="details-page" ui-view="content">
-    <div class="content details-page">
-        <!---start-product-details--->
-        <div class="product-details" style="min-height: inherit">
-            <div class="container">
-                <div class="details-left" style="width: 100%;">
-                    <div class="details-left-info">
-                        <div ng-if="message_if" style="margin: 10px auto;padding: 5px 0; color: #7fb082">
-                            {{message}}
-                        </div>
-                        <div class="details-right-head" style="width: 100%;">
-                            <div style="float: left; width: 75%; margin: 10px auto;">
-                                <input type="text" placeholder="Entrer un mot-clé" ng-model="searchKeyProduct" class="input"/>
-                            </div>
-                            <div style="float: right; width: 20%; margin: 10px auto;">
-                                <input type="number" ng-model="par_page" placeholder="Nombre" class="input"/>
-                            </div>
-
-                            <table class="table table-striped table-responsive">
-                                <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Description</th>
-                                    <th>Image</th>
-                                    <th>Prix</th>
-                                    <th>Catégorie</th>
-                                    <th>Localisation</th>
-                                    <th>A contacter</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr dir-paginate="p in produits |filter:searchKeyProduct | orderBy : '-nom' : true| itemsPerPage: par_page ">
-                                    <td>{{p.nom}}</td>
-                                    <td>{{p.description}}</td>
-                                    <td><img ng-src="{{p.imageps[0].image}}" alt="{{p.nom}}" title="{{p.nom}}"/></td>
-                                    <td>{{p.prix}}</td>
-                                    <td>{{p.categorie.nom}}</td>
-                                    <td>{{p.localisation}}</td>
-                                    <td>{{p.acontacter}}</td>
-                                    <td>
-                                        <i class="fa fa-edit" ui-sref="form-produit({id:p.id})"></i>
-                                        <i class="fa fa-trash" ng-click="supprimerProduit(p)"></i>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <div class="text-center" >
-                                <dir-pagination-controls></dir-pagination-controls>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-                <div class="details-right hide">
-
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <!---//End-product-details--->
-        </div>
+<div class="col-sm-12">
+    <div class="heading text-center">
+        <h2>Produits {{categorie}}</h2>
     </div>
 </div>
-<!-- /Product-Details-page -->
+
+<div class="col-sm-12" ng-if="produits.length>0">
+    <div class="form-group col-sm-2">
+        <button class="btn btn-template-main" ui-sref="addProduct({nom:categorie})">Ajouter un produit</button>
+    </div>
+    <div class="form-group col-sm-6" style="margin-left: 13%">
+        <input type="text" id="neu" class="form-control" ng-model="searchKey" placeholder="Entrer un mot-clé *">
+    </div>
+    <div class="form-group col-sm-2 pull-right">
+        <input type="number" class="form-control" min="0" step="5" ng-model="par_page" placeholder="Nombre à afficher">
+    </div>
+    <div class="text-center">{{message}}</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>Prix de gros</th>
+                <th>Localisation</th>
+                <th>A contacter</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr dir-paginate="p in produits | orderBy : '-nom' : true| itemsPerPage:20">
+            <td>{{p.nom}}</td>
+            <td>{{p.description}}</td>
+            <td>{{p.prix}} Fcfa</td>
+            <td>{{p.etat}} Fcfa</td>
+            <td>{{p.localisation}}</td>
+            <td>{{p.acontacter}}</td>
+            <td><img src="{{p.imageps[0].image}}" style="max-width: 50px;max-height: 50px;" alt=""/></td>
+            <td>
+                <a ui-sref="addProduct({id:p.id,nom:p.categorie.nom})"><i class="fa fa-edit"></i></a>
+                <a href="" ng-click="supprimerProduit(p)"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="clearfix"></div>
+    <div class="text-center" >
+        <dir-pagination-controls></dir-pagination-controls>
+    </div>
+</div>
+
+<div class="col-sm-12" ng-if="produits.length==0">
+    <p>Aucun produit dans cette catégorie</p>
+    <p><button class="btn btn-template-main" ui-sref="addProduct({nom:categorie})">Ajouter un produit</button> <button class="btn btn-template-main" ui-sref="admin">Retour</button></p>
+</div>

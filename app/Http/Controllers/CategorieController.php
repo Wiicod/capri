@@ -126,7 +126,7 @@ class CategorieController extends Controller
     {
         //
         //dd($request);
-        if (Input::get('nom') && Input::get('description')) {
+        if (Input::get('nom') || Input::get('description')) {
 
 
             $c = Categorie::find($id);
@@ -135,8 +135,10 @@ class CategorieController extends Controller
                     'error' => 'categorie non trouve',
                 ), 404);
             }
-            $c->nom = Input::get('nom');
-            $c->description = Input::get('description');
+            if(Input::get('nom'))
+                $c->nom = Input::get('nom');
+            if(Input::get('nom'))
+                $c->description = Input::get('description');
             $image = Input::file('image');
             if ($image) {
                 if (Storage::has($c->image))
@@ -147,6 +149,9 @@ class CategorieController extends Controller
                         'error' => $res[2],
                     ), 402);
                 }
+            }
+            else{
+                $c->save();
             }
 
 

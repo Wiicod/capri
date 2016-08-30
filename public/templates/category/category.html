@@ -1,0 +1,34 @@
+
+
+    <p class="text-muted lead">{{categorie.description}}</p>
+
+    <div class="row products">
+        <div class="col-md-4 col-sm-6"
+             dir-paginate="p in produits | orderBy : '-nom' : true| itemsPerPage:30">
+            <div class="product">
+                <div class="image">
+                    <a ui-sref="product({product:p.nom})">
+                        <img src="{{p.imageps[0].image}}" style="width: 288px; height: 288px;" alt="" class="img-responsive image1">
+                    </a>
+                </div>
+                <!-- /.image -->
+                <div class="text">
+                    <h3><a ui-sref="product({product:p.nom})">{{p.nom}}</a></h3>
+                    <p class="price">{{p.prix}} Fcfa</p>
+                </div>
+                <!-- /.text -->
+            </div>
+            <!-- /.product -->
+        </div>
+        <!-- /.col-md-4 -->
+    </div>
+    <!-- /.products -->
+
+
+
+    <div class="pages">
+        <div class="text-center">
+            <dir-pagination-controls></dir-pagination-controls>
+        </div>
+    </div>
+

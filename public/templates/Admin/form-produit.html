@@ -1,74 +1,86 @@
+<div class="box">
 
-<div class="details-page">
-    <div class="content details-page">
-        <!---start-product-details--->
-        <div class="product-details" style="min-height: inherit">
-            <div class="container">
-                <div class="details-left" style="width: 100%;">
-                    <div class="details-left-info">
-                        <div ng-if="message_if" style="margin: 10px auto;padding: 5px 0; color: #7fb082">
-                            {{message}}
-                        </div>
-                        <div class="details-right-head">
-                            <form ng-submit="enregistrerProduit(new_produit)" enctype="multipart/form-data">
-                                <div class="text">
-                                    <div class="text-fild">
-                                        <span>Nom:</span>
-                                        <input type="text" ng-model="new_produit.nom" required class="text" placeholder="Nom du produit">
-                                    </div>
-                                    <div class="text-fild">
-                                        <span>Prix:</span>
-                                        <input type="number" min="1" ng-model="new_produit.prix" required class="text" placeholder="Prix">
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="text">
-                                    <div class="text-fild">
-                                        <span>A contacter:</span>
-                                        <input type="number" ng-model="new_produit.acontacter" min="600000000" required class="text" placeholder="Personne à contacter">
-                                    </div>
-                                    <div class="text-fild">
-                                        <span>Localisation:</span>
-                                        <input type="text" ng-model="new_produit.localisation" required class="text" placeholder="Localisation">
-                                    </div>
-                                    <div class="text-fild">
-                                        <span>Categorie:</span>
-                                        <select class="" ng-model="new_produit.categorie_id" required ng-options="c.id as c.nom for c in categories">
-                                        </select>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="text-fild">
-                                    <span>Image: <span style="color: #7fb082; font-weight: bold;display: inline;" ng-if="image_if">{{new_produit.images[0].name}}</span></span>
-                                    <div ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ngf-drop ngf-select ng-model="files" class="drop-box"
-                                         ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
-                                         accept=".png,.jpg"
-                                         ngf-pattern="'.png,.jpg'">
-                                        {{textimage}}
-                                    </div>
-                                    {{image}}
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="message-fild">
-                                    <span>Description:</span>
-                                    <textarea ng-model="new_produit.description" required placeholder="Description"> </textarea>
-                                </div>
-                                <p style="margin-top: 10px;">
-                                    <input type="reset" class="p-btn" value="Annuler"/>
-                                    <input type="submit" class="p-btn" value="Enregistrer"/>
-                                </p>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-                <div class="details-right hide">
-
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <!---//End-product-details--->
-        </div>
+    <div class="heading text-center">
+        <h3 class="text-uppercase">Ajouter un produit</h3>
     </div>
+    <div class="text-center">{{message}}</div>
+    <form ng-submit="saveProduct(produit)">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" class="form-control" placeholder="Nom du produit" ng-model="produit.nom">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Catégorie</label>
+                    <input type="text" disabled class="form-control" value="{{produit.categorie.nom}}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Prix</label>
+                    <input type="number" min="0" step="5" class="form-control" placeholder="Prix du produit" ng-model="produit.prix">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label >Prix de gros</label>
+                    <input type="number" min="0" step="5" class="form-control" placeholder="Prix de gros du produit" ng-model="produit.etat">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Localisation</label>
+                    <input type="text" class="form-control" placeholder="Localisation du produit" ng-model="produit.localisation">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label >Personne à contacter</label>
+                    <input type="text" class="form-control" placeholder="Nom et numéro de la personne à contacter" ng-model="produit.acontacter">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description"  ng-model="produit.description" placeholder="Description du produit" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Image</label>
+                    <div ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" ngf-drop ngf-select ng-model="files" class="drop-box"
+                         ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+                         accept=".png,.jpg"
+                         ngf-pattern="'.png,.jpg'">
+                        {{textimage}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Image séléctionnée</label>
+                    <div ng-if="new_produit.images.length==0 || !image_if ">Aucune image séléctionnée</div>
+                    <div ng-if="image_if">Titre de l'image : <strong>{{new_produit.images[0].name}}</strong></div>
+                    <div class="clearfix"><img ng-repeat="i in produit.imageps" src="{{i.image}}" class="img-responsive" alt=""/></div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <div class="text-center">
+            <button ui-sref="listeProduit({nom:categorie.nom})" class="btn btn-template-main"><i class="fa fa-list"></i> Liste des produits</button>
+            <button type="submit" class="btn btn-template-main"><i class="fa fa-save"></i> Enregistrer le produit</button>
+        </div>
+    </form>
+
 </div>
-<!-- /Product-Details-page -->
+<!-- /.box -->

@@ -1,0 +1,45 @@
+<div id="heading-breadcrumbs">
+    <div class="dark-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h1>Notre catalogue</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="content">
+    <div class="container">
+        <div class="row products">
+
+            <div class="col-md-3 col-sm-4" dir-paginate="c in categories | orderBy : '-nom' : true| itemsPerPage:20">
+                <div class="product">
+                    <div class="image">
+                        <a ui-sref="category({category:c.nom})">
+                            <img src="{{c.image}}" style="min-width: 288px; min-height: 288px;" alt="" class="img-responsive image1">
+                        </a>
+                    </div>
+                    <!-- /.image -->
+                    <div class="text">
+                        <h3><a ui-sref="category({category:c.nom})">{{c.nom}}</a></h3>
+                    </div>
+                    <!-- /.text -->
+                </div>
+                <!-- /.product -->
+            </div>
+
+            <!-- /.col-md-4 -->
+
+            <div class="clearfix"></div>
+            <div class="text-center">
+                <dir-pagination-controls></dir-pagination-controls>
+            </div>
+        </div>
+        <!-- /.products -->
+        <!-- /.col-sm-12 -->
+
+    </div>
+    <!-- /.container -->
+</div>
+<!-- /#content -->

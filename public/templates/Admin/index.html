@@ -1,0 +1,72 @@
+<div ui-view="header"></div>
+<div id="heading-breadcrumbs">
+    <div class="dark-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h1>Administration</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="content">
+    <div class="container">
+
+        <div class="row">
+
+
+            <!-- *** LEFT COLUMN ***
+    _________________________________________________________ -->
+
+            <div class="col-sm-3">
+
+                <!-- *** MENUS AND FILTERS ***
+_________________________________________________________ -->
+                <div class="panel panel-default sidebar-menu">
+
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Menu</h3>
+                    </div>
+
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked category-menu">
+                            <li>
+                                <a ui-sref="admin({category:c.nom})">Liste des catégorie</a>
+                            </li>
+                            <li>
+                                <a ui-sref="addCategory">Ajouter une catégorie</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <!-- /.banner -->
+
+            </div>
+            <!-- /.col-md-3 -->
+
+            <!-- *** LEFT COLUMN END *** -->
+
+            <!-- *** RIGHT COLUMN ***
+    _________________________________________________________ -->
+
+            <div class="col-sm-9" ui-view="detail">
+
+
+
+
+            </div>
+            <!-- /.col-md-9 -->
+
+            <!-- *** RIGHT COLUMN END *** -->
+
+        </div>
+
+    </div>
+    <!-- /.container -->
+</div>
+<!-- /#content -->
+
+<div ui-view="footer"></div>

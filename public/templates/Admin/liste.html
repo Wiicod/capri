@@ -1,0 +1,42 @@
+<div class="col-sm-12">
+    <div class="heading text-center">
+        <h2>Toutes les catégories</h2>
+    </div>
+</div>
+
+<div class="col-sm-12">
+    <div class="form-group col-sm-10">
+        <input type="text" id="neu" class="form-control" ng-model="searchKey" placeholder="Entrer un mot-clé *">
+    </div>
+    <div class="form-group col-sm-2 pull-right">
+        <input type="number" class="form-control" min="0" step="5" ng-model="par_page" placeholder="Nombre à afficher">
+    </div>
+    <div class="text-center">{{message}}</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Produits</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr dir-paginate="c in categories | orderBy : '-nom' : true| itemsPerPage:20">
+            <td>{{c.nom}}</td>
+            <td>{{c.description}}</td>
+            <td><img src="{{c.image}}" style="max-width: 50px;max-height: 50px;" alt=""/></td>
+            <td><button class="btn btn-template-main" ui-sref="listeProduit({nom:c.nom})">Voir les produits</button></td>
+            <td>
+                <a ui-sref="addCategory({id:c.id, nom:c.nom})"><i class="fa fa-edit"></i></a>
+                <a href="" ng-click="supprimer(c.id)"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="clearfix"></div>
+    <div class="text-center">
+        <dir-pagination-controls></dir-pagination-controls>
+    </div>
+</div>
