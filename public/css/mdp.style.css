@@ -1,7 +1,1 @@
-.home-carousel .owl-carousel{
-    padding: 0px;
-}
-
-.bar {
-    padding: 0px;
-}
+.bar,.home-carousel .owl-carousel{padding:0}

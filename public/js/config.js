@@ -3,11 +3,10 @@
  */
 
 config.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlRouterProvider) {
-    $urlRouterProvider.otherwise( '/home');
 
     $stateProvider
         .state('home',{
-            url:"/home",
+            url:"/",
             title: "Bienvenue",
             menu:'home',
             loginRequired:false,
@@ -25,6 +24,50 @@ config.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$u
                     controller:"HomeCtrl"
                 },
                 'footer@home': {
+                    templateUrl: template_url+'static/footer.html',
+                    controller:"FooterCtrl"
+                }
+            }
+        })
+        .state('login',{
+            url:"/login",
+            title: "Bienvenue",
+            menu:'login',
+            loginRequired:false,
+            views:{
+                '':{
+                    templateUrl: template_url+'index.html',
+                    controller:'AppCtrl'
+                },
+                'header@login': {
+                    templateUrl: template_url+'admin/header.html'
+                },
+                'body@login': {
+                    templateUrl: template_url+'auth/login.html',
+                    controller:"LoginCtrl"
+                },
+                'footer@login': {
+                    templateUrl: template_url+'static/footer.html',
+                    controller:"FooterCtrl"
+                }
+            }
+        })
+        .state('404',{
+            url:"/404",
+            title: "404",
+            menu:'404',
+            loginRequired:false,
+            views:{
+                '':{
+                    templateUrl: template_url+'index.html'
+                },
+                'header@login': {
+                    templateUrl: template_url+'static/header.html'
+                },
+                'body@login': {
+                    templateUrl: template_url+'auth/404.html'
+                },
+                'footer@login': {
                     templateUrl: template_url+'static/footer.html',
                     controller:"FooterCtrl"
                 }
@@ -48,50 +91,6 @@ config.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$u
                     templateUrl: template_url+'contact/content.html'
                 },
                 'footer@contact': {
-                    templateUrl: template_url+'static/footer.html',
-                    controller:"FooterCtrl"
-                }
-            }
-        })
-        .state('register',{
-            url:"/register",
-            title: "S'enregistrer",
-            loginRequired:false,
-            views:{
-                '':{
-                    templateUrl: template_url+'index.html',
-                    controller:'AppCtrl'
-                },
-                'header@register': {
-                    templateUrl: template_url+'static/header.html',
-                    controller:"HeaderCtrl"
-                },
-                'body@register': {
-                    templateUrl: template_url+'auth/register.html'
-                },
-                'footer@register': {
-                    templateUrl: template_url+'static/footer.html',
-                    controller:"FooterCtrl"
-                }
-            }
-        })
-        .state('account',{
-            url:"/account",
-            title: "Mon compte",
-            loginRequired:false,
-            views:{
-                '':{
-                    templateUrl: template_url+'index.html',
-                    controller:'AppCtrl'
-                },
-                'header@account': {
-                    templateUrl: template_url+'static/header.html',
-                    controller:"HeaderCtrl"
-                },
-                'body@account': {
-                    templateUrl: template_url+'auth/account.html'
-                },
-                'footer@account': {
                     templateUrl: template_url+'static/footer.html',
                     controller:"FooterCtrl"
                 }
@@ -124,11 +123,12 @@ config.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$u
         .state('admin',{
             url:"/zephyr08",
             title: "",
-            menu:'hom',
+            menu:'requis',
             loginRequired:false,
             views:{
                 '':{
-                    templateUrl: template_url+'admin/index.html'
+                    templateUrl: template_url+'admin/index.html',
+                    controller:'AppCtrl'
                 },
                 'header@admin': {
                     templateUrl: template_url+'admin/header.html',
@@ -150,7 +150,7 @@ config.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$u
             parent:'admin',
             url:"/produit/:nom",
             loginRequired:false,
-            menu:'produit',
+            menu:'requis',
             title: "Produit",
             views: {
                 'detail@admin':{
@@ -165,6 +165,7 @@ config.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$u
             parent:'admin',
             url:"/categorie/:id/:nom?",
             loginRequired:false,
+            menu:'requis',
             title: "Ajouter une catégorie",
             views: {
                 'detail@admin':{
@@ -179,6 +180,7 @@ config.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$u
             parent:'admin',
             url:"/produit/:nom/:id?",
             loginRequired:false,
+            menu:'requis',
             title: "Ajouter une catégorie",
             views: {
                 'detail@admin':{
@@ -188,7 +190,7 @@ config.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$u
             }
         })
         .state('category',{
-            url:"/:category?",
+            url:"categories/:category?",
             title: "Categorie",
             menu:'catalogue',
             loginRequired:false,
@@ -226,4 +228,5 @@ config.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$u
             }
         })
     ;
+    $urlRouterProvider.otherwise( '/home');
 }]);

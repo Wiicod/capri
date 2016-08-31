@@ -12,22 +12,38 @@ var filter =angular.module('mdp.filter', ['ui.router']);
 angular.module('mdp', [
   'ui.router',
   'ngFileUpload',
+  'ngKookies',
   'angularUtils.directives.dirPagination',
   'mdp.controllers',
   'mdp.services',
-  'mdp.config',
-  'mdp.directives',
-  'mdp.filter'
+  'mdp.config'
 ]).
-    run(['$log','$state','$rootScope','$location',
-      function($log,$state,$rootScope,$location){
+    run(['$log','$state','$rootScope','LoginFactory','$kookies',
+      function($log,$state,$rootScope,LoginFactory,$kookies){
         $log.debug("mdp running ");
         $rootScope.$on('$stateChangeSuccess', function() {
           document.body.scrollTop = document.documentElement.scrollTop = 0;
         });
-        //$rootScope.$on('$stateChangeStart',function(event,toState,toParams,fromState){
-        //  console.log("");
-        //})
+        $rootScope.$on('$stateChangeStart',function(event,toState,toParams,fromState){
+          if(toState.menu=="requis"){
+            LoginFactory.check().then(function(data){
+              console.log("Authorisé");
+              var user=JSON.parse($kookies.get('user'));
+              console.log(user);
+              if(user.statut==0){
+                $rootScope.droit=false;
+              }else if(user.statut==1){
+                $rootScope.droit=true
+              }
+              else{
+                $state.go('404');
+              }
+            },function(msg){
+              $state.go('login');
+            });
+          }
+        });
 
 
-      }]);
+      }])
+;

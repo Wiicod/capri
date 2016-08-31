@@ -208,3 +208,167 @@ service.factory('CategorieFactory',['$http','$filter','$q','Upload',function($ht
 
         return factory ;
     }])
+    .factory('LoginFactory',['$http','$q','Upload','$kookies',function($http,$q,Upload,$kookies){
+
+        var factory ={
+            user:false,
+            getuser:function(){
+                var name=$kookies.get('username');
+                var deferred = $q.defer();
+                if( name!=undefined){
+                    deferred.resolve( name);
+                }else{
+                    deferred.reject("Utilisateur Anonyme ");
+                }
+                return deferred.promise;
+            },
+            auth:function(credentials){
+                var deferred = $q.defer();
+                $http(
+                    {method:'POST',
+                        url:'api/login/auth',
+                        params:credentials
+                    }).success(function(data,status){
+
+                        // console.log(data.user);
+                        if(status==200){
+                            factory.user =data.user;
+                            $kookies.set('user',JSON.stringify(data.user), {path: '/'});
+                            deferred.resolve(data);
+                        }
+                        if(status==406){
+                            factory.user =data.user;
+                            deferred.reject('Login incorrect');
+                        }
+                        if(status==405){
+                            factory.user =data.user;
+                            deferred.reject('Mot de passe incorrect');
+                        }
+
+
+                    }).error(function(data){
+                        deferred.reject("Login et mot de passe incorrect");
+                    });
+                return deferred.promise;
+            },
+            logout:function(){
+                var deferred = $q.defer();
+                $http.get('api/logout/destroy').success(function(data,status){
+                    if(status==200){
+
+                        $kookies.remove('username', {path: '/'});
+                        deferred.resolve(data);
+
+                    }
+
+                }).error(function(data){
+                    deferred.reject('imposible de se deconnecter'+data);
+                });
+                return deferred.promise;
+            },
+            check:function(){
+                var deferred = $q.defer();
+                $http.get('api/login/check').success(function(data,status){
+                    if(status==200){
+
+                        if(data){
+                            deferred.resolve(data);
+                        }else{
+                            deferred.reject(data);
+                        }
+
+                    }
+
+                }).error(function(data){
+                    deferred.reject(false);
+                });
+                return deferred.promise;
+            }
+
+        };
+        return factory;
+    }])
+    .factory('UserFactory',['$http','$filter','$q',function($http,$filter,$q){
+        var factory = {
+            users : false,
+            getAll: function(){
+                var deferred = $q.defer();
+                if(factory.users !== false){
+                    deferred.resolve(factory.users);
+                }else{
+                    $http.get("api/user").success(function(data,status){
+
+                        if(status==200){
+                            factory.users=data.users;
+                            deferred.resolve(factory.users);
+                        }else{
+                            deferred.reject(data);
+                        }
+                    }).error(function(data,status){
+                        console.log(status);
+                        deferred.reject("Impossible de recuperer les utilisateur");
+                    });
+                }
+
+                return deferred.promise;
+            },
+            get: function(id){
+                var deferred =$q.defer();
+                factory.getAll().then(function(users){
+                    var user=$filter('filter')(users,{id :parseInt(id)},true)[0];
+                    deferred.resolve(user);
+                },function(msg){
+                    deferred.reject("Imposible de recuperer la categorie sur cet operateur");
+                });
+                return deferred.promise;
+            },
+            add: function(user){
+                var deferred = $q.defer();
+                var param={
+                    'name':user.nom,
+                    'email':user.email,
+                    'login':user.login,
+                    'statut':user.statut,
+                    'password':user.password
+                };
+                if ('id' in user)
+                    param.id=user.id;
+                $http.post('api/user',param).success(function(data,status){
+
+                    // console.log(data.user);
+                    if(status==200){
+                        factory.users.push(data.user);
+                        deferred.resolve(data.user);
+                    }else{
+                        deferred.reject(data);
+                    }
+
+
+                }).error(function(data){
+                    deferred.reject("Impossible de creer l\'utilisateur");
+                });
+                return deferred.promise
+            },
+            delete:function(user){
+                var deferred =$q.defer();
+                $http.delete('api/user/'+user.id)
+                    .success(function(data,status){
+                        if(status==200){
+                            factory.users.splice(factory.users.indexOf(user),1);
+                            deferred.resolve(data);
+                        }else{
+                            deferred.reject(data);
+                        }
+                    })
+                    .error(function(data){
+                        deferred.reject(data);
+                    })
+                ;
+                return deferred.promise;
+            }
+        };
+
+        return factory ;
+    }])
+
+;

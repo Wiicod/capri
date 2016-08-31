@@ -3,18 +3,17 @@
  */
 
 controller
-    .controller('AppCtrl',['$scope',function($scope){
-        $(function () {
-            //sliderHomepage();
-            //fullScreenContainer();
-            //productDetailGallery(7000);
-            //menuSliding();
-            //productDetailSizes();
-            //utils();
-            //animations();
-            //counters();
-            //demo();
-        });
+    .controller('AppCtrl',['$scope','$rootScope',function($scope,$rootScope){
+        $scope.droit=$rootScope.droit;
+    }])
+    .controller('LoginCtrl',['$scope','LoginFactory','$state',function($scope,LoginFactory,$state){
+        $scope.login=function(auth){
+            LoginFactory.auth(auth).then(function(data){
+                $state.go('admin');
+            },function(msg){
+                $scope.message=msg;
+            });
+        };
     }])
     .controller('HeaderCtrl',['$scope','$state',function($scope,$state){
         $scope.menu=$state.current.menu;
@@ -65,7 +64,7 @@ controller
         $scope.product=$stateParams.product;
         ProduitFactory.get("nom",$scope.product).then(function(data){
             $scope.p=data;
-            console.log(data);
+            //console.log(data);
         });
     }])
     .controller('AdminCtrl',['$scope','CategorieFactory',function($scope,CategorieFactory){
@@ -73,7 +72,7 @@ controller
 
         $scope.supprimer=function(id){
           CategorieFactory.delete(id).then(function(data){
-              console.log(data);
+              //console.log(data);
              $scope.message="Catégorie supprimée avec succes";
           });
         };
@@ -90,7 +89,7 @@ controller
                     $scope.produits.push(value);
                 }
             });
-            console.log($scope.produits);
+            //console.log($scope.produits);
         });
         $scope.categorie=$stateParams.nom;
         $scope.supprimerProduit=function(p){
@@ -159,7 +158,7 @@ controller
                     categorie.id=$stateParams.id;
                 }
                 CategorieFactory.add(categorie).then(function(data){
-                    console.log(typeof $stateParams.id,"stat",data);
+                    //console.log(typeof $stateParams.id,"stat",data);
                     $scope.message="Nouvelle catégorie créée";
                     if(categorie.id!="" && categorie.id!=undefined && categorie.id!=null){
                         $scope.message="Catégorie mise à jour";

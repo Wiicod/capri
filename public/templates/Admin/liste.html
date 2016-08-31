@@ -30,7 +30,7 @@
             <td><button class="btn btn-template-main" ui-sref="listeProduit({nom:c.nom})">Voir les produits</button></td>
             <td>
                 <a ui-sref="addCategory({id:c.id, nom:c.nom})"><i class="fa fa-edit"></i></a>
-                <a href="" ng-click="supprimer(c.id)"><i class="fa fa-trash-o"></i></a>
+                <a href="" ng-if="droit" ng-click="supprimer(c.id)"><i class="fa fa-trash-o"></i></a>
             </td>
         </tr>
         </tbody>
